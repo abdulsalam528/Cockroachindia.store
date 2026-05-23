@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #EAE5D9;
+  --color-foreground: #000000;
+  --font-display: var(--font-alfa-slab);
+  --font-mono: var(--font-space-mono);
+}
+
+:root {
+  --background: #EAE5D9;
+  --foreground: #000000;
+}
+
+body {
+  background-color: #EAE5D9;
+  color: #000000;
+  font-family: var(--font-space-mono), Courier, monospace;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display), Impact, sans-serif;
+  letter-spacing: 0.02em;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+
+/* Custom Scrollbar for Vintage Look */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #EAE5D9;
+  border-left: 2px solid #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border: 2px solid #EAE5D9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C2410C;
+}
+
+/* Vintage Paper Texture Overlay */
+.vintage-grain {
+  position: relative;
+}
+.vintage-grain::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 10;
+}
