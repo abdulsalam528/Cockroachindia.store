@@ -51,6 +51,24 @@ export default function ProductDetail() {
   const [mockPaying, setMockPaying] = useState(false);
   const [notification, setNotification] = useState(null);
 
+  // Custom Image Zoom State
+  const [zoomStyle, setZoomStyle] = useState({ transform: 'scale(1)', transformOrigin: 'center center' });
+
+  const handleMouseMove = (e) => {
+    if (window.innerWidth < 1024) return; // Only zoom on desktop
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setZoomStyle({
+      transformOrigin: `${x}% ${y}%`,
+      transform: 'scale(2)'
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setZoomStyle({ transform: 'scale(1)', transformOrigin: 'center center' });
+  };
+
   useEffect(() => {
     async function loadProduct() {
       try {
@@ -302,12 +320,17 @@ export default function ProductDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 border-4 border-black p-6 sm:p-8 bg-[#EAE5D9]">
         {/* Left Side: Product Image */}
         <div className="flex flex-col gap-4">
-          <div className="relative aspect-square w-full border-4 border-black bg-white">
+          <div 
+            className="relative aspect-square w-full border-4 border-black bg-white overflow-hidden cursor-crosshair"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
             <Image
               src={activeImage || product.imageUrl}
               alt={product.name}
               fill
-              className="object-cover grayscale"
+              className="object-cover transition-transform duration-200 ease-out"
+              style={zoomStyle}
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
             />
@@ -601,7 +624,7 @@ export default function ProductDetail() {
                     src={p.imageUrl}
                     alt={p.name}
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+                    className="object-cover transition-all duration-300 group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                   <div className="absolute top-2 left-2 bg-black text-[#EAE5D9] text-[9px] font-bold px-2 py-0.5 border border-black tracking-wider uppercase">

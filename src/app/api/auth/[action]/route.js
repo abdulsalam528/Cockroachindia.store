@@ -34,7 +34,8 @@ export async function POST(request, { params }) {
       const partyMemberId = `CJP-2026-${randomNum}`;
 
       // Automatically verify member if they register as admin
-      const isAdmin = email === 'admin@cjp.org' || email === 'admin@cockroachindia.shop';
+      const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+      const isAdmin = adminEmails.includes(email);
       const isVerifiedMember = isAdmin;
 
       // Handle default address fields
@@ -121,7 +122,8 @@ export async function POST(request, { params }) {
         return NextResponse.json({ error: 'Invalid credentials.' }, { status: 401 });
       }
 
-      const isAdmin = user.email === 'admin@cjp.org' || user.email === 'admin@cockroachindia.shop';
+      const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+      const isAdmin = adminEmails.includes(user.email);
       const token = jwt.sign(
         { id: user._id, email: user.email, fullName: user.fullName, isAdmin, isVerifiedMember: user.isVerifiedMember },
         JWT_SECRET,
@@ -188,7 +190,8 @@ export async function POST(request, { params }) {
 
       await user.save();
       
-      const isAdmin = user.email === 'admin@cjp.org' || user.email === 'admin@cockroachindia.shop';
+      const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+      const isAdmin = adminEmails.includes(user.email);
       return NextResponse.json({ 
         message: 'Address added successfully', 
         user: {
@@ -227,7 +230,8 @@ export async function POST(request, { params }) {
 
       await user.save();
       
-      const isAdmin = user.email === 'admin@cjp.org' || user.email === 'admin@cockroachindia.shop';
+      const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+      const isAdmin = adminEmails.includes(user.email);
       return NextResponse.json({ 
         message: 'Address deleted successfully', 
         user: {
@@ -268,7 +272,8 @@ export async function POST(request, { params }) {
 
       await user.save();
       
-      const isAdmin = user.email === 'admin@cjp.org' || user.email === 'admin@cockroachindia.shop';
+      const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+      const isAdmin = adminEmails.includes(user.email);
       return NextResponse.json({ 
         message: 'Default address updated successfully', 
         user: {
@@ -309,7 +314,8 @@ export async function GET(request, { params }) {
         return NextResponse.json({ error: 'User not found.' }, { status: 401 });
       }
 
-      const isAdmin = user.email === 'admin@cjp.org' || user.email === 'admin@cockroachindia.shop';
+      const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+      const isAdmin = adminEmails.includes(user.email);
       return NextResponse.json({
         user: {
           id: user._id,

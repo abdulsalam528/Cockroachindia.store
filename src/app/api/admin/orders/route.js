@@ -14,12 +14,12 @@ async function verifyAdmin(request) {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    if (decoded.email === 'admin@cjp.org' || decoded.email === 'admin@cockroachindia.shop') {
+    const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+    if (adminEmails.includes(decoded.email)) {
       return decoded;
     }
-    // Also check database just to be sure
     const user = await User.findById(decoded.id);
-    if (user && (user.email === 'admin@cjp.org' || user.email === 'admin@cockroachindia.shop')) {
+    if (user && adminEmails.includes(user.email)) {
       return decoded;
     }
     return false;

@@ -21,8 +21,9 @@ export async function middleware(request) {
 
       // Check admin protection
       if (pathname.startsWith('/admin')) {
-        if (!payload.isAdmin && payload.email !== 'admin@cjp.org') {
-          return NextResponse.redirect(new URL('/dashboard', request.url));
+        const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+        if (!payload.isAdmin && !adminEmails.includes(payload.email)) {
+          return NextResponse.redirect(new URL('/', request.url));
         }
       }
     } catch (err) {

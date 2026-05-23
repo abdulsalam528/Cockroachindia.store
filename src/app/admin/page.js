@@ -124,7 +124,8 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    if (user && (user.email === 'admin@cjp.org' || user.email === 'admin@cockroachindia.shop')) {
+    const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+    if (user && adminEmails.includes(user.email)) {
       const timer = setTimeout(() => {
         fetchOrders();
         fetchProducts();
@@ -134,7 +135,8 @@ export default function AdminDashboard() {
     }
   }, [user]);
 
-  if (!user || (user.email !== 'admin@cjp.org' && user.email !== 'admin@cockroachindia.shop')) {
+  const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
+  if (!user || !adminEmails.includes(user.email)) {
     return (
       <div className="vintage-grain min-h-[80vh] flex items-center justify-center py-20 px-4 text-center">
         <div className="max-w-md w-full border-4 border-black p-8 bg-[#EAE5D9] shadow-2xl flex flex-col gap-4">
