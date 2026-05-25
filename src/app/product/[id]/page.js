@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { ArrowLeft, Star, ShoppingBag, ShieldCheck, HelpCircle, X, Terminal, Check, AlertTriangle } from 'lucide-react';
+import Loader from '../../components/Loader';
 
 const getYouTubeEmbedUrl = (url) => {
   if (!url) return null;
@@ -107,12 +108,7 @@ export default function ProductDetail() {
   }, [user]);
 
   if (loading) {
-    return (
-      <div className="vintage-grain min-h-screen flex flex-col items-center justify-center gap-3">
-        <div className="w-10 h-10 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
-        <p className="text-xs font-bold uppercase tracking-widest">Querying MongoDB Archives...</p>
-      </div>
-    );
+    return <Loader text="Querying database archives..." subtext="Syncing product details..." />;
   }
 
   if (!product) {

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { ShieldCheck, HelpCircle } from 'lucide-react';
+import Loader from '../components/Loader';
 
 function RegisterForm() {
   const { loading, register } = useAuth();
@@ -37,7 +38,7 @@ function RegisterForm() {
     setError('');
 
     if (!formData.fullName || !formData.email || !formData.phoneNumber || !formData.addressLine1 || !formData.city || !formData.state || !formData.postalCode || !formData.password) {
-      setError('Please fill in all mandatory enlistment sheets.');
+      setError('Please fill in all required fields.');
       return;
     }
 
@@ -45,7 +46,7 @@ function RegisterForm() {
     try {
       await register(formData, callbackUrl);
     } catch (err) {
-      setError(err.message || 'Failed to enlist in the movement.');
+      setError(err.message || 'Failed to create your account. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -255,14 +256,7 @@ function RegisterForm() {
 
 export default function Register() {
   return (
-    <Suspense fallback={
-      <div className="vintage-grain min-h-[80vh] flex items-center justify-center py-12 px-4">
-        <div className="max-w-md w-full border-4 border-black bg-[#EAE5D9] p-8 shadow-2xl flex flex-col items-center justify-center gap-4">
-          <div className="w-8 h-8 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
-          <p className="text-xs font-bold uppercase tracking-widest text-center">Loading...</p>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<Loader text="Initializing registration..." subtext="Readying database write..." />}>
       <RegisterForm />
     </Suspense>
   );

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { ShieldCheck } from 'lucide-react';
+import Loader from '../components/Loader';
 
 function LoginForm() {
   const { login, loading } = useAuth();
@@ -29,7 +30,7 @@ function LoginForm() {
     setError('');
 
     if (!formData.email || !formData.password) {
-      setError('Please fill in both dispatch coordinates.');
+      setError('Please fill in your email and password.');
       return;
     }
 
@@ -51,10 +52,10 @@ function LoginForm() {
         <div className="text-center border-b-2 border-black pb-4">
           <div className="text-xl">🪳</div>
           <h2 className="font-display text-2xl uppercase font-black tracking-wide mt-1">
-            MEMBER ARCHIVE LOG-IN
+            LOGIN TO YOUR ACCOUNT
           </h2>
           <p className="text-[10px] uppercase font-bold text-gray-700 mt-1">
-            Lookup Form CIS-LOG-2026: Access Verified Status
+            Sign in to track your orders & manage your account
           </p>
           {callbackUrl && callbackUrl !== '/dashboard' && (
             <p className="text-[10px] text-[#C2410C] font-bold mt-2 bg-[#C2410C]/10 px-2 py-1 border border-[#C2410C]/30">
@@ -73,7 +74,7 @@ function LoginForm() {
           {/* Email */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-bold uppercase text-gray-700">
-              1. Enlisted Dispatch Email
+              Email Address
             </label>
             <input
               type="email"
@@ -89,7 +90,7 @@ function LoginForm() {
           {/* Password */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-bold uppercase text-gray-700">
-              2. Secret Passphrase [Password]
+              Password
             </label>
             <input
               type="password"
@@ -108,17 +109,17 @@ function LoginForm() {
             disabled={submitting || loading}
             className="w-full text-center border-2 border-black bg-black text-[#EAE5D9] py-2.5 text-xs font-display font-black uppercase tracking-wider hover:bg-[#C2410C] hover:text-white transition-all cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
           >
-            {submitting ? 'LOOKING UP DATABASE...' : 'REQUEST SYSTEM ACCESS'}
+            {submitting ? 'SIGNING IN...' : 'LOGIN'}
           </button>
         </form>
 
         <div className="border-t border-black/25 pt-4 text-center text-xs font-bold">
-          Not yet enlisted?{' '}
+          Don't have an account?{' '}
           <Link
             href={`/register${callbackUrl !== '/dashboard' ? `?callbackUrl=${encodeURIComponent(callbackUrl)}` : ''}`}
             className="text-[#C2410C] hover:underline"
           >
-            Register Application [Join Party]
+            Create an Account
           </Link>
         </div>
 
@@ -135,16 +136,7 @@ function LoginForm() {
 
 export default function Login() {
   return (
-    <Suspense fallback={
-      <div className="vintage-grain min-h-[75vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full border-4 border-black bg-[#EAE5D9] p-8 shadow-2xl flex flex-col items-center justify-center gap-4">
-          <div className="w-8 h-8 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
-          <p className="text-xs font-bold uppercase tracking-widest text-center">
-            Establishing Secured Connection to Party Archives...
-          </p>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<Loader text="Establishing secured connection..." subtext="Syncing credentials..." />}>
       <LoginForm />
     </Suspense>
   );

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { ShieldCheck, Truck, ShoppingBag, ExternalLink, Calendar, Receipt, User as UserIcon } from 'lucide-react';
 import Link from 'next/link';
+import Loader from '../components/Loader';
 
 export default function Dashboard() {
   const { user, loading: authLoading, refreshUser } = useAuth();
@@ -122,12 +123,7 @@ export default function Dashboard() {
   };
 
   if (authLoading) {
-    return (
-      <div className="vintage-grain min-h-screen flex flex-col items-center justify-center gap-3">
-        <div className="w-10 h-10 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
-        <p className="text-xs font-bold uppercase tracking-widest">Verifying Party Clearance...</p>
-      </div>
-    );
+    return <Loader text="Verifying credentials..." subtext="Accessing dashboard archives..." />;
   }
 
   // Progress steps definitions
@@ -199,10 +195,7 @@ export default function Dashboard() {
         </h3>
 
         {loadingOrders ? (
-          <div className="text-center py-20 flex flex-col items-center gap-2">
-            <div className="w-8 h-8 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
-            <p className="text-xs font-bold uppercase">Fetching active dispatches...</p>
-          </div>
+          <Loader text="Fetching active shipments..." subtext="Syncing order history..." fullScreen={false} />
         ) : orders.length === 0 ? (
           <div className="border-4 border-dashed border-black p-12 text-center flex flex-col items-center gap-4 bg-white/40">
             <ShoppingBag className="w-10 h-10 text-gray-400" />

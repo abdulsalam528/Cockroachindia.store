@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, ShieldCheck, Check, AlertTriangle } from 'lucide-react';
+import Loader from '../components/Loader';
 
 // Shipping calculator — Origin: Deoband 247554, Saharanpur UP
 function getShippingCharge(customerPin) {
@@ -301,11 +302,7 @@ export default function CheckoutPage() {
   };
 
   if (loading || !order) {
-    return (
-      <div className="vintage-grain min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
+    return <Loader text="Loading order invoice..." subtext="Syncing checkout details..." />;
   }
 
   const subtotal = order.price * order.quantity;

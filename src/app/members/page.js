@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { User, MessageCircle, ShieldCheck, Sparkles, Filter, Search } from 'lucide-react';
+import Loader from '../components/Loader';
 
 export default function Members() {
   const [members, setMembers] = useState([]);
@@ -97,10 +98,7 @@ export default function Members() {
       </div>
 
       {loading ? (
-        <div className="text-center py-20 flex flex-col items-center gap-2">
-          <div className="w-8 h-8 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
-          <p className="text-xs font-bold uppercase">Decrypting member archives...</p>
-        </div>
+        <Loader text="Decrypting member database..." subtext="Accessing directory logs..." fullScreen={false} />
       ) : filteredMembers.length === 0 ? (
         <div className="border-4 border-dashed border-black p-12 text-center text-xs font-bold uppercase text-gray-700 bg-white/40">
           No comrades match the query coordinates.

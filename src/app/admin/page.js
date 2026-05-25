@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { ShieldCheck, Truck, LayoutGrid, PackagePlus, Save, Check, RefreshCw } from 'lucide-react';
+import Loader from '../components/Loader';
 
 export default function AdminDashboard() {
   const { user } = useAuth();
@@ -477,10 +478,7 @@ export default function AdminDashboard() {
           </div>
 
           {loadingOrders ? (
-            <div className="text-center py-20 flex flex-col items-center gap-2">
-              <div className="w-8 h-8 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
-              <p className="text-xs font-bold uppercase">Decrypting order ledgers...</p>
-            </div>
+            <Loader text="Decrypting order database..." subtext="Syncing logistics ledgers..." fullScreen={false} />
           ) : orders.length === 0 ? (
             <div className="border-4 border-dashed border-black p-12 text-center text-xs font-bold uppercase text-gray-700 bg-white/40">
               No orders registered in the system database.
@@ -849,10 +847,7 @@ export default function AdminDashboard() {
             </div>
 
             {loadingProducts ? (
-              <div className="text-center py-20 flex flex-col items-center gap-2">
-                <div className="w-8 h-8 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
-                <p className="text-xs font-bold uppercase">Loading products ledger...</p>
-              </div>
+              <Loader text="Loading inventory database..." subtext="Syncing stock items..." fullScreen={false} />
             ) : (
               <div className="flex flex-col gap-4">
                 {products.map(product => {

@@ -59,19 +59,19 @@ export default function Header() {
                 onClick={logout}
                 className="hover:text-red-700 hover:underline underline-offset-4 decoration-2 font-bold cursor-pointer"
               >
-                Resign [Logout]
+                Logout
               </button>
             </>
           ) : (
             <>
               <Link href="/login" className="hover:text-[#C2410C] hover:underline underline-offset-4 decoration-2">
-                Enlist [Login]
+                Login
               </Link>
               <Link
                 href="/register"
                 className="border-2 border-black bg-[#C2410C] text-white px-3 py-1.5 hover:bg-black hover:text-[#EAE5D9] transition-all font-bold"
               >
-                Join Party
+                Register
               </Link>
             </>
           )}
