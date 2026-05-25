@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+  guestDetails: {
+    name: { type: String },
+    phone: { type: String },
+    email: { type: String }
+  },
   razorpayOrderId: { type: String, required: true, unique: true },
   razorpayPaymentId: { type: String },
   totalAmount: { type: Number, required: true }, // Stored in INR (Rupees)

@@ -29,9 +29,9 @@ export async function POST(request, { params }) {
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(password, salt);
 
-      // Generate a mock unique CJP Member ID
+      // Generate a mock unique CIS Member ID
       const randomNum = Math.floor(100000 + Math.random() * 900000);
-      const partyMemberId = `CJP-2026-${randomNum}`;
+      const partyMemberId = `CIS-2026-${randomNum}`;
 
       // Automatically verify member if they register as admin
       const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];
@@ -311,7 +311,9 @@ export async function GET(request, { params }) {
       const decoded = jwt.verify(token, JWT_SECRET);
       const user = await User.findById(decoded.id).select('-passwordHash');
       if (!user) {
-        return NextResponse.json({ error: 'User not found.' }, { status: 401 });
+        const response = NextResponse.json({ error: 'User not found.' }, { status: 401 });
+        response.cookies.delete('token');
+        return response;
       }
 
       const adminEmails = ['admin@cjp.org', 'admin@cockroachindia.shop', 'admin@cockroach.store', 'admin@cockroachindia.store'];

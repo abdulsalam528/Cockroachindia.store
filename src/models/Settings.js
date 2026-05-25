@@ -8,6 +8,7 @@ const LogisticsPartnerSchema = new mongoose.Schema({
 const SettingsSchema = new mongoose.Schema({
   id: { type: String, required: true, default: 'global' },
   logisticsPartners: { type: [LogisticsPartnerSchema], default: [] },
+  featuredCategories: { type: [String], default: [] },
 }, { timestamps: true });
 
 export default mongoose.models.Settings || mongoose.model('Settings', SettingsSchema);

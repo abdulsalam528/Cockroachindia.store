@@ -16,7 +16,13 @@ export default function AdminDashboard() {
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [logisticsPartners, setLogisticsPartners] = useState([]);
+  const [featuredCategories, setFeaturedCategories] = useState('');
   const [loadingSettings, setLoadingSettings] = useState(true);
+
+  // Order filter states
+  const [orderStatusFilter, setOrderStatusFilter] = useState('All');
+  const [orderDateFrom, setOrderDateFrom] = useState('');
+  const [orderDateTo, setOrderDateTo] = useState('');
 
   // Logistics modification states (mapped by orderId)
   const [orderEdits, setOrderEdits] = useState({});
@@ -34,6 +40,7 @@ export default function AdminDashboard() {
     imageUrl: '',
     imagesRaw: '',
     videoUrlsRaw: '',
+    category: 'Uncategorized',
     colorsRaw: 'Default',
     stockS: 50,
     stockM: 100,
@@ -54,6 +61,9 @@ export default function AdminDashboard() {
         const data = await res.json();
         if (data.settings && data.settings.logisticsPartners) {
           setLogisticsPartners(data.settings.logisticsPartners);
+        }
+        if (data.settings && data.settings.featuredCategories) {
+          setFeaturedCategories(data.settings.featuredCategories.join(', '));
         }
       }
     } catch (err) {
@@ -102,6 +112,7 @@ export default function AdminDashboard() {
         data.products.forEach(p => {
           edits[p.id] = {
             name: p.name,
+            category: p.category || 'Uncategorized',
             description: p.description,
             imageUrl: p.imageUrl,
             price: p.price,
@@ -210,6 +221,7 @@ export default function AdminDashboard() {
         body: JSON.stringify({
           id: productId,
           name: edit.name,
+          category: edit.category,
           description: edit.description,
           imageUrl: edit.imageUrl,
           price: edit.price,
@@ -295,6 +307,7 @@ export default function AdminDashboard() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: newProduct.name,
+          category: newProduct.category,
           price: Number(newProduct.price),
           description: newProduct.description,
           imageUrl: newProduct.imageUrl || undefined,
@@ -320,6 +333,7 @@ export default function AdminDashboard() {
           imageUrl: '',
           imagesRaw: '',
           videoUrlsRaw: '',
+          category: 'Uncategorized',
           colorsRaw: 'Default',
           stockS: 50,
           stockM: 100,
@@ -345,7 +359,7 @@ export default function AdminDashboard() {
         <div>
           <h2 className="font-display text-2xl sm:text-3xl uppercase font-black text-[#C2410C] flex items-center gap-2">
             <ShieldCheck className="w-8 h-8 text-[#C2410C]" />
-            CJP Logistics Ops Dashboard
+            CIS Logistics Ops Dashboard
           </h2>
           <p className="text-[10px] uppercase font-bold tracking-wider text-gray-400 mt-1">
             Official Administrative Command Center for Swag Logistics
@@ -391,6 +405,7 @@ export default function AdminDashboard() {
       {/* TAB 1: Order dispatches list */}
       {activeTab === 'orders' && (
         <div className="flex flex-col gap-6">
+          {/* Header + Sync */}
           <div className="flex justify-between items-center border-b-2 border-black pb-2">
             <h3 className="font-display text-xl uppercase font-black flex items-center gap-2">
               <Truck className="w-5 h-5 text-[#C2410C]" />
@@ -404,6 +419,63 @@ export default function AdminDashboard() {
             </button>
           </div>
 
+          {/* ── Filter Bar ── */}
+          <div className="border-2 border-black bg-white p-4 flex flex-col gap-4">
+            {/* Status pills */}
+            <div className="flex flex-col gap-2">
+              <span className="text-[10px] font-black uppercase text-gray-600 tracking-widest">Filter by Status</span>
+              <div className="flex flex-wrap gap-2">
+                {['All', 'Pending', 'Paid', 'Shipped', 'Out For Delivery', 'Delivered'].map(s => (
+                  <button
+                    key={s}
+                    onClick={() => setOrderStatusFilter(s)}
+                    className={`px-3 py-1 text-[10px] font-black uppercase border-2 border-black transition-all cursor-pointer ${
+                      orderStatusFilter === s
+                        ? s === 'Pending' ? 'bg-gray-500 text-white'
+                          : s === 'Paid' ? 'bg-yellow-400 text-black'
+                          : s === 'Shipped' || s === 'Out For Delivery' ? 'bg-blue-600 text-white'
+                          : s === 'Delivered' ? 'bg-green-600 text-white'
+                          : 'bg-black text-[#EAE5D9]'
+                        : 'bg-[#EAE5D9] text-black hover:bg-gray-100'
+                    }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Date range + clear */}
+            <div className="flex flex-wrap items-end gap-4">
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] font-black uppercase text-gray-600 tracking-widest">From Date</label>
+                <input
+                  type="date"
+                  value={orderDateFrom}
+                  onChange={e => setOrderDateFrom(e.target.value)}
+                  className="border-2 border-black px-2 py-1 text-xs font-bold outline-none bg-[#EAE5D9] cursor-pointer"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] font-black uppercase text-gray-600 tracking-widest">To Date</label>
+                <input
+                  type="date"
+                  value={orderDateTo}
+                  onChange={e => setOrderDateTo(e.target.value)}
+                  className="border-2 border-black px-2 py-1 text-xs font-bold outline-none bg-[#EAE5D9] cursor-pointer"
+                />
+              </div>
+              {(orderStatusFilter !== 'All' || orderDateFrom || orderDateTo) && (
+                <button
+                  onClick={() => { setOrderStatusFilter('All'); setOrderDateFrom(''); setOrderDateTo(''); }}
+                  className="px-3 py-1.5 text-[10px] font-black uppercase border-2 border-[#C2410C] text-[#C2410C] hover:bg-[#C2410C] hover:text-white transition-all cursor-pointer"
+                >
+                  ✕ Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
+
           {loadingOrders ? (
             <div className="text-center py-20 flex flex-col items-center gap-2">
               <div className="w-8 h-8 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
@@ -413,20 +485,87 @@ export default function AdminDashboard() {
             <div className="border-4 border-dashed border-black p-12 text-center text-xs font-bold uppercase text-gray-700 bg-white/40">
               No orders registered in the system database.
             </div>
-          ) : (
+          ) : (() => {
+            // Apply filters
+            const filteredOrders = orders.filter(order => {
+              if (orderStatusFilter !== 'All' && order.status !== orderStatusFilter) return false;
+              if (orderDateFrom) {
+                const from = new Date(orderDateFrom);
+                from.setHours(0, 0, 0, 0);
+                if (new Date(order.createdAt) < from) return false;
+              }
+              if (orderDateTo) {
+                const to = new Date(orderDateTo);
+                to.setHours(23, 59, 59, 999);
+                if (new Date(order.createdAt) > to) return false;
+              }
+              return true;
+            });
+            return (
             <div className="flex flex-col gap-6">
-              {orders.map((order) => {
+              {/* Match count */}
+              <div className="flex items-center gap-2 text-xs font-bold uppercase text-gray-700">
+                <span className="bg-black text-[#EAE5D9] px-2 py-0.5 font-black">{filteredOrders.length}</span>
+                order{filteredOrders.length !== 1 ? 's' : ''} matching filters
+                {filteredOrders.length === 0 && <span className="text-[#C2410C] ml-2">— No results found</span>}
+              </div>
+              {filteredOrders.map((order) => {
                 const edit = orderEdits[order._id] || { status: 'Pending', courierPartner: '', trackingId: '' };
 
                 return (
                   <div key={order._id} className="border-4 border-black bg-[#EAE5D9] p-5 shadow-lg flex flex-col gap-4">
                     
+                    {/* Order ID Hero — prominent at top for quick confirmation */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-black text-[#EAE5D9] px-4 py-2.5 -mx-5 -mt-5 border-b-4 border-black">
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Razorpay Order ID</span>
+                        <code className="text-sm font-bold font-mono text-[#C2410C] tracking-wide">
+                          {order.razorpayOrderId || 'N/A'}
+                        </code>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {/* Status badge */}
+                        <span className={`text-[10px] font-black uppercase px-2 py-1 border-2 border-black ${
+                          order.status === 'Delivered' ? 'bg-green-600 text-white border-green-800' :
+                          order.status === 'Shipped' || order.status === 'Out For Delivery' ? 'bg-blue-600 text-white border-blue-800' :
+                          order.status === 'Paid' ? 'bg-yellow-400 text-black border-yellow-600' :
+                          'bg-gray-500 text-white border-gray-700'
+                        }`}>
+                          {order.status}
+                        </span>
+                        {/* Copy button */}
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(order.razorpayOrderId || '');
+                            setStatusMessage(`Copied: ${order.razorpayOrderId}`);
+                            setTimeout(() => setStatusMessage(''), 3000);
+                          }}
+                          className="text-[9px] font-bold uppercase px-2 py-1 border border-gray-500 text-gray-300 hover:bg-white/10 transition-colors cursor-pointer"
+                          title="Copy Order ID"
+                        >
+                          Copy ID
+                        </button>
+                      </div>
+                    </div>
+
                     {/* Order Meta row */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border-b border-black/20 pb-3 text-xs font-mono font-semibold">
-                      <p><span className="text-gray-500 font-bold uppercase">ID:</span> <code className="bg-white/60 px-1 border">{order._id}</code></p>
-                      <p><span className="text-gray-500 font-bold uppercase">Customer:</span> {order.userId?.fullName || 'Deleted user'}</p>
-                      <p><span className="text-gray-500 font-bold uppercase">Phone:</span> {order.userId?.phoneNumber || 'N/A'}</p>
-                      <p><span className="text-gray-500 font-bold uppercase">Total:</span> <strong>INR {order.totalAmount}.00</strong></p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 border-b border-black/20 pb-3 text-xs font-mono font-semibold">
+                      <div>
+                        <span className="text-gray-500 font-bold uppercase block text-[9px]">Customer</span>
+                        <span>{order.userId?.fullName || order.guestDetails?.name || 'Guest'}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500 font-bold uppercase block text-[9px]">Phone</span>
+                        <span>{order.userId?.phoneNumber || order.guestDetails?.phone || 'N/A'}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500 font-bold uppercase block text-[9px]">Total</span>
+                        <strong>₹{order.totalAmount}.00</strong>
+                      </div>
+                      <div>
+                        <span className="text-gray-500 font-bold uppercase block text-[9px]">Placed On</span>
+                        <span>{order.createdAt ? new Date(order.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : 'N/A'}</span>
+                      </div>
                     </div>
 
                     {/* Shipping Address snapshot */}
@@ -474,7 +613,7 @@ export default function AdminDashboard() {
 
                       {/* Tracking ID */}
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold uppercase text-gray-600">Waybill Tracking ID</label>
+                        <label className="text-[10px] font-bold uppercase text-gray-600">Your Tracking ID</label>
                         <input
                           type="text"
                           value={edit.trackingId}
@@ -522,7 +661,8 @@ export default function AdminDashboard() {
                 );
               })}
             </div>
-          )}
+            );
+          })()}
         </div>
       )}
 
@@ -553,7 +693,19 @@ export default function AdminDashboard() {
                   required
                   value={newProduct.name}
                   onChange={(e) => setNewProduct(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="e.g. CJP Survivalist Mug"
+                  placeholder="e.g. CIS Survivalist Mug"
+                  className="border border-black bg-white px-2 py-1.5 outline-none font-bold"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="uppercase text-gray-700">Category</label>
+                <input
+                  type="text"
+                  required
+                  value={newProduct.category}
+                  onChange={(e) => setNewProduct(prev => ({ ...prev, category: e.target.value }))}
+                  placeholder="e.g. T-Shirts"
                   className="border border-black bg-white px-2 py-1.5 outline-none font-bold"
                 />
               </div>
@@ -720,6 +872,16 @@ export default function AdminDashboard() {
                             className="border border-black bg-white px-2 py-1 font-bold outline-none text-xs"
                           />
                           <span className="text-[9px] font-mono text-gray-500">ID: {product.id}</span>
+                        </div>
+                        {/* Category adjust */}
+                        <div className="flex flex-col gap-1">
+                          <label className="uppercase text-gray-600 text-[10px] font-bold">Category</label>
+                          <input
+                            type="text"
+                            value={edit.category}
+                            onChange={(e) => handleProductEditChange(product.id, 'category', e.target.value)}
+                            className="border border-black bg-white px-2 py-1 font-bold outline-none text-xs"
+                          />
                         </div>
                         {/* Price adjust */}
                         <div className="flex flex-col gap-1">
@@ -987,7 +1149,10 @@ export default function AdminDashboard() {
                     const res = await fetch('/api/admin/settings', {
                       method: 'PATCH',
                       headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ logisticsPartners })
+                      body: JSON.stringify({ 
+                        logisticsPartners,
+                        featuredCategories: featuredCategories.split(',').map(c => c.trim()).filter(Boolean)
+                      })
                     });
                     if (res.ok) {
                       setStatusMessage('Settings updated successfully.');
@@ -1000,6 +1165,43 @@ export default function AdminDashboard() {
                 className="w-full bg-[#C2410C] text-white border-2 border-black font-display font-black uppercase text-xs py-3 mt-4 hover:bg-black transition-colors"
               >
                 Save Settings
+              </button>
+            </div>
+          </div>
+
+          <div className="border-4 border-black p-6 bg-[#EAE5D9] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <h4 className="font-display font-black uppercase text-lg mb-2">Homepage Category Filter</h4>
+            <p className="text-xs font-bold text-gray-600 mb-6">Comma-separated categories to appear in the homepage top bar (e.g., <code>T-Shirts, Cups, Hoodies</code>).</p>
+            
+            <div className="flex flex-col gap-4">
+              <input
+                type="text"
+                value={featuredCategories}
+                onChange={(e) => setFeaturedCategories(e.target.value)}
+                placeholder="e.g. T-Shirts, Cups"
+                className="border border-black bg-white px-2 py-2 font-bold outline-none text-sm"
+              />
+              <button
+                onClick={async () => {
+                  try {
+                    const res = await fetch('/api/admin/settings', {
+                      method: 'PATCH',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ 
+                        featuredCategories: featuredCategories.split(',').map(c => c.trim()).filter(Boolean)
+                      })
+                    });
+                    if (res.ok) {
+                      setStatusMessage('Categories updated successfully.');
+                      setTimeout(() => setStatusMessage(''), 4000);
+                    }
+                  } catch (e) {
+                    alert('Error saving categories');
+                  }
+                }}
+                className="w-full bg-[#C2410C] text-white border-2 border-black font-display font-black uppercase text-xs py-3 hover:bg-black transition-colors"
+              >
+                Save Categories
               </button>
             </div>
           </div>

@@ -10,6 +10,43 @@ import { products } from '@/config/products';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'cjp-satirical-jwt-secret-key-2026';
 
+// Shipping calculator — Origin: Deoband 247554, Saharanpur UP
+function getShippingCharge(customerPin) {
+  const pin = parseInt(customerPin);
+  if (!pin || pin < 100000 || pin > 999999) return 79; // fallback
+
+  // Zone A — Saharanpur district (same city/district)
+  if (pin >= 247000 && pin <= 247999) return 45;
+
+  // Zone B — Western UP, Delhi NCR, Haryana, Uttarakhand (~500km radius)
+  if (pin >= 201000 && pin <= 250999) return 55; // UP belt
+  if (pin >= 110000 && pin <= 131999) return 55; // Delhi + Haryana
+  if (pin >= 132000 && pin <= 136999) return 55; // Haryana remainder
+
+  // Zone E — HP, Jammu, North East (special zones, charged higher)
+  if (pin >= 170000 && pin <= 177999) return 89; // Himachal Pradesh
+  if (pin >= 180000 && pin <= 185999) return 89; // Jammu
+  if (pin >= 786000 && pin <= 799999) return 89; // Assam + NE states
+
+  // Zone F — Kashmir, Ladakh, Manipur, Andaman (most expensive)
+  if (pin >= 190000 && pin <= 195999) return 109; // Kashmir / Ladakh
+  if (pin >= 795000 && pin <= 795999) return 109; // Manipur
+  if (pin >= 744200 && pin <= 744299) return 109; // Andaman & Nicobar
+
+  // Zone C — Major metros far from Deoband
+  // Mumbai/Pune (400xxx), Bangalore (560xxx), Chennai (600xxx),
+  // Hyderabad (500xxx), Kolkata (700xxx)
+  const prefix3 = Math.floor(pin / 1000);
+  const metroZones = [
+    400, 401, 402, 403, 404, 410, 411, 412, 560, 561, 562, 563,
+    600, 601, 602, 603, 700, 701, 702, 711, 712, 500, 501, 502
+  ];
+  if (metroZones.includes(prefix3)) return 69;
+
+  // Zone D — Everything else (default Rest of India)
+  return 79;
+}
+
 // Initialize Razorpay client
 const razorpay = new Razorpay({
   key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_dummy',
@@ -44,21 +81,21 @@ export async function POST(request) {
   await dbConnect();
   await seedProductsIfNeeded();
 
-  // Authentication check
-  const token = request.cookies.get('token')?.value;
-  if (!token) {
-    return NextResponse.json({ error: 'You must be logged in to checkout.' }, { status: 401 });
-  }
-
-  let decoded;
   try {
-    decoded = jwt.verify(token, JWT_SECRET);
-  } catch (err) {
-    return NextResponse.json({ error: 'Invalid or expired session. Please log in again.' }, { status: 401 });
-  }
+    const { productId, size, quantity, addressId, color, address, guestDetails } = await request.json();
 
-  try {
-    const { productId, size, quantity, addressId, color } = await request.json();
+    // Authentication check
+    const token = request.cookies.get('token')?.value;
+    let decoded = null;
+    if (token) {
+      try {
+        decoded = jwt.verify(token, JWT_SECRET);
+      } catch (err) {
+        return NextResponse.json({ error: 'Invalid or expired session. Please log in again.' }, { status: 401 });
+      }
+    } else if (!guestDetails) {
+      return NextResponse.json({ error: 'Authentication or guest details required to checkout.' }, { status: 401 });
+    }
 
     if (!productId || !size || !quantity || quantity <= 0) {
       return NextResponse.json({ error: 'Invalid checkout parameters.' }, { status: 400 });
@@ -123,35 +160,64 @@ export async function POST(request) {
       return NextResponse.json({ error: `Target size ${size} / color ${selectedColor} inventory depleted!` }, { status: 400 });
     }
 
-    // Fetch user address
-    const user = await User.findById(decoded.id);
-    if (!user) {
-      return NextResponse.json({ error: 'User not found.' }, { status: 404 });
+    let shippingAddress;
+    let userInfo = {};
+
+    if (decoded) {
+      // Fetch user address
+      const user = await User.findById(decoded.id);
+      if (!user) {
+        return NextResponse.json({ error: 'User not found.' }, { status: 404 });
+      }
+      userInfo = { fullName: user.fullName, email: user.email };
+
+      let shippingAddressObj;
+      if (addressId) {
+        shippingAddressObj = user.addresses.id(addressId);
+      }
+      if (!shippingAddressObj && user.addresses) {
+        shippingAddressObj = user.addresses.find(a => a.isDefault) || user.addresses[0];
+      }
+      if (!shippingAddressObj && address) {
+         shippingAddressObj = address;
+      }
+      if (!shippingAddressObj) {
+        // Revert stock decrement
+        await Product.updateOne({ id: productId }, { $inc: { [stockKey]: quantity } });
+        return NextResponse.json({ error: 'Please configure a shipping address in your profile.' }, { status: 400 });
+      }
+
+      shippingAddress = {
+        addressLine1: shippingAddressObj.addressLine1,
+        addressLine2: shippingAddressObj.addressLine2 || '',
+        city: shippingAddressObj.city,
+        state: shippingAddressObj.state,
+        postalCode: shippingAddressObj.postalCode,
+        country: shippingAddressObj.country || 'India'
+      };
+    } else {
+      userInfo = { fullName: guestDetails.name, email: guestDetails.email };
+      shippingAddress = {
+        addressLine1: guestDetails.address.addressLine1,
+        addressLine2: guestDetails.address.addressLine2 || '',
+        city: guestDetails.address.city,
+        state: guestDetails.address.state,
+        postalCode: guestDetails.address.postalCode,
+        country: guestDetails.address.country || 'India'
+      };
     }
 
-    let shippingAddressObj;
-    if (addressId) {
-      shippingAddressObj = user.addresses.id(addressId);
+    const subtotal = product.price * quantity;
+    let shippingCost = 0;
+    if (subtotal < 899) {
+      if (shippingAddress && shippingAddress.postalCode && shippingAddress.postalCode.length === 6) {
+        shippingCost = getShippingCharge(shippingAddress.postalCode);
+      } else {
+        shippingCost = 79; // fallback
+      }
     }
-    if (!shippingAddressObj) {
-      shippingAddressObj = user.addresses.find(a => a.isDefault) || user.addresses[0];
-    }
-    if (!shippingAddressObj) {
-      // Revert stock decrement
-      await Product.updateOne({ id: productId }, { $inc: { [stockKey]: quantity } });
-      return NextResponse.json({ error: 'Please configure a shipping address in your profile.' }, { status: 400 });
-    }
-
-    const shippingAddress = {
-      addressLine1: shippingAddressObj.addressLine1,
-      addressLine2: shippingAddressObj.addressLine2 || '',
-      city: shippingAddressObj.city,
-      state: shippingAddressObj.state,
-      postalCode: shippingAddressObj.postalCode,
-      country: shippingAddressObj.country || 'India'
-    };
-
-    const totalAmount = product.price * quantity; // Stored in INR
+    
+    const totalAmount = subtotal + shippingCost; // Stored in INR
     const amountInPaise = totalAmount * 100;
 
     const hasRazorpay = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET;
@@ -191,7 +257,8 @@ export async function POST(request) {
 
     // Create Order in DB (status Pending)
     const dbOrder = await Order.create({
-      userId: decoded.id,
+      userId: decoded ? decoded.id : null,
+      guestDetails: !decoded ? guestDetails : undefined,
       razorpayOrderId,
       totalAmount,
       status: 'Pending',
@@ -214,10 +281,7 @@ export async function POST(request) {
       amount: amountInPaise,
       totalAmount,
       productName: product.name,
-      user: {
-        fullName: decoded.fullName,
-        email: decoded.email
-      },
+      user: userInfo,
       isMock
     });
 

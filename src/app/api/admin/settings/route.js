@@ -45,7 +45,7 @@ export async function PATCH(request) {
   }
 
   try {
-    const { logisticsPartners } = await request.json();
+    const { logisticsPartners, featuredCategories } = await request.json();
     
     let settings = await Settings.findOne({ id: 'global' });
     if (!settings) {
@@ -54,6 +54,10 @@ export async function PATCH(request) {
     
     if (logisticsPartners) {
       settings.logisticsPartners = logisticsPartners;
+    }
+    
+    if (featuredCategories) {
+      settings.featuredCategories = featuredCategories;
     }
     
     await settings.save();

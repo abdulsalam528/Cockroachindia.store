@@ -17,11 +17,11 @@ function RegisterForm() {
     fullName: '',
     email: '',
     phoneNumber: '',
-    addressLine1: '123 Slacker Lane',
+    addressLine1: '',
     addressLine2: '',
-    city: 'Delhi',
-    state: 'Delhi',
-    postalCode: '110001',
+    city: '',
+    state: '',
+    postalCode: '',
     country: 'India',
     password: '',
   });
@@ -55,20 +55,19 @@ function RegisterForm() {
     <div className="vintage-grain min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full border-4 border-black bg-[#EAE5D9] p-8 shadow-2xl flex flex-col gap-6">
         
-        {/* Header Branding */}
         <div className="text-center border-b-2 border-black pb-4">
-          <div className="text-xl">🪳</div>
+          <div className="text-xl">🛍️</div>
           <h2 className="font-display text-2xl uppercase font-black tracking-wide mt-1">
-            ENLISTMENT APPLICATION SHEET
+            CREATE FREE ACCOUNT
           </h2>
           <p className="text-[10px] uppercase font-bold text-gray-700 mt-1">
-            Form CJP-REG-2026: Declaration of Intent to Slack
+            Track your orders & get early drop access
           </p>
         </div>
 
         {error && (
           <div className="border-2 border-[#C2410C] bg-[#C2410C]/10 p-3 text-xs font-bold text-[#C2410C] leading-snug">
-            ⚠️ SYSTEM ERROR: {error}
+            ⚠️ ERROR: {error}
           </div>
         )}
 
@@ -76,7 +75,7 @@ function RegisterForm() {
           {/* Full name */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-bold uppercase text-gray-700">
-              1. Full Legal Slogan / Name
+              1. Full Name
             </label>
             <input
               type="text"
@@ -84,7 +83,7 @@ function RegisterForm() {
               required
               value={formData.fullName}
               onChange={handleChange}
-              placeholder="e.g. Comrade Laxman Prasad"
+              placeholder="e.g. Rahul Kumar"
               className="border-2 border-black bg-white px-3 py-2 text-xs font-bold outline-none focus:border-[#C2410C]"
             />
           </div>
@@ -92,7 +91,7 @@ function RegisterForm() {
           {/* Email */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-bold uppercase text-gray-700">
-              2. Digital Dispatch Address [Email]
+              2. Email Address
             </label>
             <input
               type="email"
@@ -100,7 +99,7 @@ function RegisterForm() {
               required
               value={formData.email}
               onChange={handleChange}
-              placeholder="e.g. laxman@unemployed.org"
+              placeholder="e.g. rahul@example.com"
               className="border-2 border-black bg-white px-3 py-2 text-xs font-bold outline-none focus:border-[#C2410C]"
             />
           </div>
@@ -108,7 +107,7 @@ function RegisterForm() {
           {/* Phone */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-bold uppercase text-gray-700">
-              3. UPI-Linked Mobile Connection [10-Digits]
+              3. Mobile Number [10-Digits]
             </label>
             <input
               type="tel"
@@ -212,7 +211,7 @@ function RegisterForm() {
           {/* Password */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-bold uppercase text-gray-700">
-              5. Secret Enlistment Passphrase [Password]
+              5. Password
             </label>
             <input
               type="password"
@@ -225,13 +224,12 @@ function RegisterForm() {
             />
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={submitting || loading}
             className="w-full text-center border-2 border-black bg-[#C2410C] text-white py-2.5 text-xs font-display font-black uppercase tracking-wider hover:bg-black hover:text-[#EAE5D9] transition-all cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
           >
-            {submitting ? 'PROCESSING PAPERS...' : 'SUBMIT ENLISTMENT SHEET'}
+            {submitting ? 'PROCESSING...' : 'CREATE FREE ACCOUNT'}
           </button>
         </form>
 
@@ -241,13 +239,13 @@ function RegisterForm() {
             href={`/login${callbackUrl !== '/dashboard' ? `?callbackUrl=${encodeURIComponent(callbackUrl)}` : ''}`}
             className="text-[#C2410C] hover:underline"
           >
-            Access Member Lockbox [Login]
+            Login here
           </Link>
         </div>
 
         <div className="flex items-center justify-center gap-1.5 text-[9px] uppercase font-bold text-gray-500">
           <ShieldCheck className="w-3.5 h-3.5 text-green-700" />
-          Certified Satirical Registration Core
+          Secure Account Creation
         </div>
 
       </div>
@@ -261,7 +259,7 @@ export default function Register() {
       <div className="vintage-grain min-h-[80vh] flex items-center justify-center py-12 px-4">
         <div className="max-w-md w-full border-4 border-black bg-[#EAE5D9] p-8 shadow-2xl flex flex-col items-center justify-center gap-4">
           <div className="w-8 h-8 border-4 border-black border-t-[#C2410C] rounded-full animate-spin"></div>
-          <p className="text-xs font-bold uppercase tracking-widest text-center">Loading Enlistment Sheet...</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-center">Loading...</p>
         </div>
       </div>
     }>

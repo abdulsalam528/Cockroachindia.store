@@ -12,7 +12,7 @@ export default function Header() {
       {/* Top Banner Ticker */}
       <div className="bg-black text-[#EAE5D9] text-xs py-1.5 px-4 overflow-hidden border-b-2 border-black">
         <div className="animate-marquee whitespace-nowrap inline-block font-mono uppercase tracking-widest">
-          📢 STRONGER TOGETHER • UNITY - RESILIENCE - PROGRESS • VOICE OF THE LAZY & UNEMPLOYED • YOU CANNOT SQUASH A MOVEMENT • JOIN THE PROPAGANDA DROP TONIGHT • 
+          📢 NEW DROPS EVERY WEEK • HEAVY 240 GSM COTTON • SHIPS ACROSS INDIA • COCKROACH INDIA STORE • 
         </div>
       </div>
 
@@ -20,14 +20,14 @@ export default function Header() {
         {/* Satirical Branding Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative w-12 h-12 border-2 border-black transition-transform group-hover:scale-105">
-            <Image src="/logo.webp" alt="CJP Logo" fill className="object-contain bg-black" unoptimized />
+            <Image src="/logo.webp" alt="CIS Logo" fill className="object-contain" unoptimized />
           </div>
           <div>
             <h1 className="font-display text-xl sm:text-2xl tracking-wide leading-none uppercase font-black">
               COCKROACH INDIA STORE
             </h1>
             <p className="text-[10px] uppercase font-bold tracking-wider text-gray-700">
-              Unofficial Satirical Parody Hub
+              Official Merch Drop
             </p>
           </div>
         </Link>
@@ -36,9 +36,6 @@ export default function Header() {
         <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs uppercase font-bold tracking-wider">
           <Link href="/" className="hover:text-[#C2410C] hover:underline underline-offset-4 decoration-2">
             Storefront
-          </Link>
-          <Link href="/members" className="hover:text-[#C2410C] hover:underline underline-offset-4 decoration-2">
-            Directory
           </Link>
           <Link href="/about" className="hover:text-[#C2410C] hover:underline underline-offset-4 decoration-2">
             Manifesto

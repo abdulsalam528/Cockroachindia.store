@@ -147,7 +147,7 @@ export default function Dashboard() {
         <section className="border-4 border-black bg-[#EAE5D9] p-6 shadow-xl flex flex-col md:flex-row justify-between gap-6 relative overflow-hidden">
           <div className="flex flex-col gap-3 z-10">
             <span className="bg-black text-[#EAE5D9] self-start text-[9px] px-2.5 py-0.5 font-bold uppercase tracking-wider">
-              CJP Member Identification Card
+              CIS Member Identification Card
             </span>
             <h2 className="font-display text-2xl uppercase font-black tracking-wide leading-none mt-1">
               {user.fullName}
@@ -191,175 +191,7 @@ export default function Dashboard() {
         </section>
       )}
 
-      {/* SECTION: ADDRESS BOOK SETTINGS */}
-      <section className="border-4 border-black bg-[#EAE5D9] p-6 shadow-xl flex flex-col gap-6">
-        <h3 className="font-display text-xl uppercase font-black border-b-2 border-black pb-2 flex items-center gap-2">
-          <UserIcon className="w-5 h-5 text-[#C2410C]" />
-          SHIPPING ADDRESS MANAGEMENT
-        </h3>
-
-        {/* Address Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {user?.addresses && user.addresses.length > 0 ? (
-            user.addresses.map((addr) => (
-              <div 
-                key={addr._id} 
-                className={`p-4 border-2 flex flex-col justify-between gap-3 bg-white ${
-                  addr.isDefault ? 'border-[#C2410C] shadow-[3px_3px_0px_0px_rgba(194,65,12,1)]' : 'border-black'
-                }`}
-              >
-                <div>
-                  <div className="flex justify-between items-start gap-2 mb-1.5">
-                    <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 border border-black bg-zinc-100">
-                      {addr.isDefault ? '⭐ Default Address' : 'Address'}
-                    </span>
-                  </div>
-                  <p className="text-xs font-bold leading-normal text-black">{addr.addressLine1}</p>
-                  {addr.addressLine2 && <p className="text-xs text-gray-700 font-semibold">{addr.addressLine2}</p>}
-                  <p className="text-xs text-gray-800 font-bold mt-1">
-                    {addr.city}, {addr.state} - {addr.postalCode}
-                  </p>
-                  <p className="text-[10px] uppercase font-bold text-gray-500">{addr.country}</p>
-                </div>
-                
-                <div className="flex gap-2 border-t border-gray-200 pt-3">
-                  {!addr.isDefault && (
-                    <button
-                      onClick={() => handleSetDefault(addr._id)}
-                      className="px-2.5 py-1 text-[10px] font-bold border border-black bg-black text-[#EAE5D9] hover:bg-[#C2410C] hover:text-white uppercase transition-all cursor-pointer"
-                    >
-                      Set Default
-                    </button>
-                  )}
-                  <button
-                    onClick={() => handleDeleteAddress(addr._id)}
-                    className="px-2.5 py-1 text-[10px] font-bold border border-black text-[#C2410C] hover:bg-[#C2410C] hover:text-white uppercase transition-all cursor-pointer"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="md:col-span-2 border-2 border-dashed border-black/40 p-6 text-center text-xs font-semibold text-gray-500">
-              No registered addresses found. Add one below to enable faster checkouts.
-            </div>
-          )}
-        </div>
-
-        {/* Add Address Form */}
-        <form onSubmit={handleAddAddress} className="border-2 border-black bg-white/40 p-4 flex flex-col gap-4">
-          <h4 className="text-xs font-black uppercase text-[#C2410C] border-b border-black/10 pb-1.5">
-            + Dispatch New Destination [Add Address]
-          </h4>
-
-          {addressError && (
-            <div className="border border-[#C2410C] bg-[#C2410C]/10 p-2.5 text-[11px] font-bold text-[#C2410C]">
-              ⚠️ ERROR: {addressError}
-            </div>
-          )}
-          {addressSuccess && (
-            <div className="border border-green-700 bg-green-700/10 p-2.5 text-[11px] font-bold text-green-700">
-              ✓ SUCCESS: {addressSuccess}
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold uppercase text-gray-700">Address Line 1*</label>
-              <input
-                type="text"
-                required
-                value={addressForm.addressLine1}
-                onChange={(e) => setAddressForm(p => ({ ...p, addressLine1: e.target.value }))}
-                placeholder="Flat/House No., Building, Street"
-                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold uppercase text-gray-700">Address Line 2</label>
-              <input
-                type="text"
-                value={addressForm.addressLine2}
-                onChange={(e) => setAddressForm(p => ({ ...p, addressLine2: e.target.value }))}
-                placeholder="Landmark, Locality (Optional)"
-                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold uppercase text-gray-700">City*</label>
-              <input
-                type="text"
-                required
-                value={addressForm.city}
-                onChange={(e) => setAddressForm(p => ({ ...p, city: e.target.value }))}
-                placeholder="e.g. New Delhi"
-                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold uppercase text-gray-700">State*</label>
-              <input
-                type="text"
-                required
-                value={addressForm.state}
-                onChange={(e) => setAddressForm(p => ({ ...p, state: e.target.value }))}
-                placeholder="e.g. Delhi"
-                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold uppercase text-gray-700">PIN Code*</label>
-              <input
-                type="text"
-                required
-                pattern="[0-9]{6}"
-                value={addressForm.postalCode}
-                onChange={(e) => setAddressForm(p => ({ ...p, postalCode: e.target.value }))}
-                placeholder="110001"
-                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold uppercase text-gray-700">Country*</label>
-              <input
-                type="text"
-                required
-                value={addressForm.country}
-                onChange={(e) => setAddressForm(p => ({ ...p, country: e.target.value }))}
-                placeholder="India"
-                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 mt-1">
-            <input
-              type="checkbox"
-              id="isDefault"
-              checked={addressForm.isDefault}
-              onChange={(e) => setAddressForm(p => ({ ...p, isDefault: e.target.checked }))}
-              className="accent-[#C2410C]"
-            />
-            <label htmlFor="isDefault" className="text-[10px] font-bold uppercase text-gray-700 cursor-pointer">
-              Set as default shipping address
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            disabled={submittingAddress}
-            className="self-start px-5 py-2 border-2 border-black bg-[#C2410C] text-white text-xs font-bold uppercase hover:bg-black transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
-          >
-            {submittingAddress ? 'ENLISTING DESTINATION...' : 'ADD DESTINATION ADDRESS'}
-          </button>
-        </form>
-      </section>
-
-      {/* SECTION 2: Shipment Dispatches */}
+      {/* SECTION 2: Shipment Dispatches (Moved to top) */}
       <section className="flex flex-col gap-6">
         <h3 className="font-display text-xl uppercase font-black border-b-2 border-black pb-2 flex items-center gap-2">
           <Truck className="w-5 h-5 text-[#C2410C]" />
@@ -529,6 +361,174 @@ export default function Dashboard() {
             })}
           </div>
         )}
+      </section>
+
+      {/* SECTION: ADDRESS BOOK SETTINGS (Moved to bottom) */}
+      <section className="border-4 border-black bg-[#EAE5D9] p-6 shadow-xl flex flex-col gap-6">
+        <h3 className="font-display text-xl uppercase font-black border-b-2 border-black pb-2 flex items-center gap-2">
+          <UserIcon className="w-5 h-5 text-[#C2410C]" />
+          SHIPPING ADDRESS MANAGEMENT
+        </h3>
+
+        {/* Address Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {user?.addresses && user.addresses.length > 0 ? (
+            user.addresses.map((addr) => (
+              <div 
+                key={addr._id} 
+                className={`p-4 border-2 flex flex-col justify-between gap-3 bg-white ${
+                  addr.isDefault ? 'border-[#C2410C] shadow-[3px_3px_0px_0px_rgba(194,65,12,1)]' : 'border-black'
+                }`}
+              >
+                <div>
+                  <div className="flex justify-between items-start gap-2 mb-1.5">
+                    <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 border border-black bg-zinc-100">
+                      {addr.isDefault ? '⭐ Default Address' : 'Address'}
+                    </span>
+                  </div>
+                  <p className="text-xs font-bold leading-normal text-black">{addr.addressLine1}</p>
+                  {addr.addressLine2 && <p className="text-xs text-gray-700 font-semibold">{addr.addressLine2}</p>}
+                  <p className="text-xs text-gray-800 font-bold mt-1">
+                    {addr.city}, {addr.state} - {addr.postalCode}
+                  </p>
+                  <p className="text-[10px] uppercase font-bold text-gray-500">{addr.country}</p>
+                </div>
+                
+                <div className="flex gap-2 border-t border-gray-200 pt-3">
+                  {!addr.isDefault && (
+                    <button
+                      onClick={() => handleSetDefault(addr._id)}
+                      className="px-2.5 py-1 text-[10px] font-bold border border-black bg-black text-[#EAE5D9] hover:bg-[#C2410C] hover:text-white uppercase transition-all cursor-pointer"
+                    >
+                      Set Default
+                    </button>
+                  )}
+                  <button
+                    onClick={() => handleDeleteAddress(addr._id)}
+                    className="px-2.5 py-1 text-[10px] font-bold border border-black text-[#C2410C] hover:bg-[#C2410C] hover:text-white uppercase transition-all cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="md:col-span-2 border-2 border-dashed border-black/40 p-6 text-center text-xs font-semibold text-gray-500">
+              No registered addresses found. Add one below to enable faster checkouts.
+            </div>
+          )}
+        </div>
+
+        {/* Add Address Form */}
+        <form onSubmit={handleAddAddress} className="border-2 border-black bg-white/40 p-4 flex flex-col gap-4">
+          <h4 className="text-xs font-black uppercase text-[#C2410C] border-b border-black/10 pb-1.5">
+            + Dispatch New Destination [Add Address]
+          </h4>
+
+          {addressError && (
+            <div className="border border-[#C2410C] bg-[#C2410C]/10 p-2.5 text-[11px] font-bold text-[#C2410C]">
+              ⚠️ ERROR: {addressError}
+            </div>
+          )}
+          {addressSuccess && (
+            <div className="border border-green-700 bg-green-700/10 p-2.5 text-[11px] font-bold text-green-700">
+              ✓ SUCCESS: {addressSuccess}
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold uppercase text-gray-700">Address Line 1*</label>
+              <input
+                type="text"
+                required
+                value={addressForm.addressLine1}
+                onChange={(e) => setAddressForm(p => ({ ...p, addressLine1: e.target.value }))}
+                placeholder="Flat/House No., Building, Street"
+                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold uppercase text-gray-700">Address Line 2</label>
+              <input
+                type="text"
+                value={addressForm.addressLine2}
+                onChange={(e) => setAddressForm(p => ({ ...p, addressLine2: e.target.value }))}
+                placeholder="Landmark, Locality (Optional)"
+                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold uppercase text-gray-700">City*</label>
+              <input
+                type="text"
+                required
+                value={addressForm.city}
+                onChange={(e) => setAddressForm(p => ({ ...p, city: e.target.value }))}
+                placeholder="e.g. New Delhi"
+                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold uppercase text-gray-700">State*</label>
+              <input
+                type="text"
+                required
+                value={addressForm.state}
+                onChange={(e) => setAddressForm(p => ({ ...p, state: e.target.value }))}
+                placeholder="e.g. Delhi"
+                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold uppercase text-gray-700">PIN Code*</label>
+              <input
+                type="text"
+                required
+                pattern="[0-9]{6}"
+                value={addressForm.postalCode}
+                onChange={(e) => setAddressForm(p => ({ ...p, postalCode: e.target.value }))}
+                placeholder="110001"
+                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold uppercase text-gray-700">Country*</label>
+              <input
+                type="text"
+                required
+                value={addressForm.country}
+                onChange={(e) => setAddressForm(p => ({ ...p, country: e.target.value }))}
+                placeholder="India"
+                className="border border-black bg-white px-2.5 py-1.5 text-xs font-bold outline-none focus:border-[#C2410C]"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 mt-1">
+            <input
+              type="checkbox"
+              id="isDefault"
+              checked={addressForm.isDefault}
+              onChange={(e) => setAddressForm(p => ({ ...p, isDefault: e.target.checked }))}
+              className="accent-[#C2410C]"
+            />
+            <label htmlFor="isDefault" className="text-[10px] font-bold uppercase text-gray-700 cursor-pointer">
+              Set as default shipping address
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            disabled={submittingAddress}
+            className="self-start px-5 py-2 border-2 border-black bg-[#C2410C] text-white text-xs font-bold uppercase hover:bg-black transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
+          >
+            {submittingAddress ? 'ENLISTING DESTINATION...' : 'ADD DESTINATION ADDRESS'}
+          </button>
+        </form>
       </section>
 
     </div>

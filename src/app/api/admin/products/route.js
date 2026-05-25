@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import dbConnect from '@/lib/dbConnect';
 import Product from '@/models/Product';
 import User from '@/models/User';
+import Settings from '@/models/Settings';
 import { products } from '@/config/products';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'cjp-satirical-jwt-secret-key-2026';
@@ -29,6 +30,7 @@ async function seedProductsIfNeeded() {
     const formatted = products.map((p) => ({
       id: p.id,
       name: p.name,
+      category: p.category || 'Uncategorized',
       price: p.price,
       description: p.description,
       imageUrl: p.imageUrl,
@@ -52,7 +54,20 @@ export async function GET(request) {
 
   try {
     const dbProducts = await Product.find({}).sort({ name: 1 });
-    return NextResponse.json({ products: dbProducts });
+    let settings = await Settings.findOne({ id: 'global' });
+    if (!settings) {
+      settings = await Settings.create({ id: 'global' });
+    }
+    return NextResponse.json({ 
+      products: dbProducts,
+      featuredCategories: settings.featuredCategories || []
+    }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
   } catch (error) {
     console.error('Fetch products error:', error);
     return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
@@ -67,7 +82,7 @@ export async function PATCH(request) {
   }
 
   try {
-    const { id, name, price, description, imageUrl, stock, images, videoUrls, variants } = await request.json();
+    const { id, name, category, price, description, imageUrl, stock, images, videoUrls, variants } = await request.json();
 
     if (!id) {
       return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });
@@ -79,6 +94,7 @@ export async function PATCH(request) {
     }
 
     if (name) product.name = name;
+    if (category) product.category = category;
     if (price !== undefined) product.price = Number(price);
     if (description) product.description = description;
     if (imageUrl) product.imageUrl = imageUrl;
@@ -124,7 +140,7 @@ export async function POST(request) {
   }
 
   try {
-    const { name, price, description, imageUrl, stock, images, videoUrls, variants } = await request.json();
+    const { name, category, price, description, imageUrl, stock, images, videoUrls, variants } = await request.json();
 
     if (!name || !price || !description) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
@@ -155,6 +171,7 @@ export async function POST(request) {
     const newProduct = await Product.create({
       id,
       name,
+      category: category || 'Uncategorized',
       price: Number(price),
       description,
       imageUrl: imageUrl || 'https://placehold.co/600x600/EAE5D9/000000?text=New+Merch',

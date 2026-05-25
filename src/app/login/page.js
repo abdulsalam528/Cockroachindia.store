@@ -54,7 +54,7 @@ function LoginForm() {
             MEMBER ARCHIVE LOG-IN
           </h2>
           <p className="text-[10px] uppercase font-bold text-gray-700 mt-1">
-            Lookup Form CJP-LOG-2026: Access Verified Status
+            Lookup Form CIS-LOG-2026: Access Verified Status
           </p>
           {callbackUrl && callbackUrl !== '/dashboard' && (
             <p className="text-[10px] text-[#C2410C] font-bold mt-2 bg-[#C2410C]/10 px-2 py-1 border border-[#C2410C]/30">

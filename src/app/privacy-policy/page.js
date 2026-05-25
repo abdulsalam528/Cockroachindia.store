@@ -6,10 +6,10 @@ export default function PrivacyPolicy() {
     <div className="vintage-grain min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto flex flex-col gap-8">
       <header className="border-4 border-black bg-black text-[#EAE5D9] p-5 text-center">
         <h2 className="font-display text-2xl sm:text-4xl uppercase font-black tracking-wide leading-none text-[#C2410C]">
-          PRIVACY POLICY (NO DATA SQUASH)
+          PRIVACY POLICY
         </h2>
         <p className="text-[9px] uppercase font-bold text-gray-300 mt-1 font-mono">
-          Form CJP-PRIVACY-2026: Constitutional Protection of Digital Slackers
+          DPDP-Compliant Data Protection Guidelines
         </p>
       </header>
 
@@ -18,24 +18,24 @@ export default function PrivacyPolicy() {
           Effective Date: May 22, 2026
         </p>
 
-        <h3 className="font-display text-base uppercase font-black mt-2">1. The Anti-Squash Covenant</h3>
+        <h3 className="font-display text-base uppercase font-black mt-2">1. Data Collection & Usage</h3>
         <p>
-          We promise never to squash your digital footprints. Unlike major tech cartels that auction your dreams to the highest bidder, the Cockroach Janta Party only collects minimal logs needed to verify your membership credentials and complete logistics dispatch coordinates.
+          We respect your privacy. Under the Digital Personal Data Protection (DPDP) Act, we collect only the minimal information required to process your orders and manage your account. This includes your name, email, phone number, and shipping address. We do not sell or rent your data to third-party data brokers.
         </p>
 
-        <h3 className="font-display text-base uppercase font-black mt-2">2. Processing Operations & Deoband Food Compliance</h3>
+        <h3 className="font-display text-base uppercase font-black mt-2">2. Processing Operations & Compliance</h3>
         <p>
-          Your payment coordinates are processed through industry-standard encryption. Financial logs and transaction receipts are managed under the regulatory compliance label: <strong className="text-[#C2410C]">Deoband Food</strong>. Your banking statement will show charges marked under this name. This transparency prevents billing abandonment.
+          Your payment coordinates are processed securely through our payment gateway partners. Financial logs and transaction receipts are managed under the regulatory compliance label: <strong className="text-[#C2410C]">abdulsalamproductions</strong>. Your banking statement will show charges marked under this name.
         </p>
 
-        <h3 className="font-display text-base uppercase font-black mt-2">3. Cookies & Session Storage</h3>
+        <h3 className="font-display text-base uppercase font-black mt-2">3. Cookies & Session Management</h3>
         <p>
-          We set a single, secure, `httpOnly`, `SameSite=Strict` token cookie on your browser. This cookie contains your encrypted session credentials and prevents malicious third-party scripts from intercepting your verified party status. We do not use tracking cookies because we are too lazy to analyze the data.
+          We use secure, standard `httpOnly` cookies to maintain your login session. These are necessary for the website to function correctly and allow you to view your order history and checkout securely. We do not use intrusive cross-site tracking cookies.
         </p>
 
-        <h3 className="font-display text-base uppercase font-black mt-2">4. Erasure of Archives</h3>
+        <h3 className="font-display text-base uppercase font-black mt-2">4. Your Data Rights & Erasure</h3>
         <p>
-          If you decide to resign from the movement and request database erasure, we will delete your record from our MongoDB Atlas cluster immediately. Any physical paperwork will be tossed into our unorganized filing cabinet, where it will slowly decompose over centuries.
+          Under the DPDP Act, you have the right to request access to or deletion of your personal data. If you wish to delete your account, please contact our Grievance Officer at cockroachindiastore@gmail.com. Upon request, your record will be securely erased from our active databases.
         </p>
 
         <Link

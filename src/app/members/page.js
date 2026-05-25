@@ -73,7 +73,7 @@ export default function Members() {
           VERIFIED MEMBER DIRECTORY
         </h2>
         <p className="text-xs max-w-xl mx-auto leading-relaxed text-gray-300 font-semibold font-mono">
-          Registry Sheet CJP-DIR-2026. Displaying all citizens who have successfully registered or procured official cotton gear to bypass toxic productivity structures.
+          Registry Sheet CIS-DIR-2026. Displaying all citizens who have successfully registered or procured official cotton gear to bypass toxic productivity structures.
         </p>
       </section>
 
@@ -154,7 +154,7 @@ export default function Members() {
 
               {/* Action WhatsApp coordinate */}
               <div className="border-t border-black/20 pt-3 mt-auto flex justify-between items-center text-[10px] text-gray-600">
-                <span>Joined CJP: {new Date(member.createdAt).toLocaleDateString('en-IN')}</span>
+                <span>Joined CIS: {new Date(member.createdAt).toLocaleDateString('en-IN')}</span>
                 {member.whatsappLink ? (
                   <a
                     href={member.whatsappLink}

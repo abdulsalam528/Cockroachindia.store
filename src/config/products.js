@@ -39,7 +39,7 @@ function makeVideoUrls(id) {
 const rawProducts = [
   {
     id: "cjp-cotton-armour",
-    name: "CJP Anti-Squash Cotton Armour",
+    name: "CIS Anti-Squash Cotton Armour",
     price: 999,
     description: "Heavyweight 240 GSM vintage cotton armor. Guaranteed to survive extreme social pressure, slipper throws, and corporate layoffs. Voice of the lazy and resilient.",
     imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Cotton+Armour",
@@ -161,7 +161,7 @@ const rawProducts = [
     id: "vip-lazy-member-badge",
     name: "VIP Lazy Member Brass Pin",
     price: 299,
-    description: "Solid stamped brass badge with safety pin backing. Features the CJP emblem. Looks highly official, acts as a freepass to avoid manual labor.",
+    description: "Solid stamped brass badge with safety pin backing. Features the CIS emblem. Looks highly official, acts as a freepass to avoid manual labor.",
     imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Member+Badge",
     stock: { S: 50, M: 100, L: 100, XL: 50 }
   },
@@ -175,7 +175,7 @@ const rawProducts = [
   },
   {
     id: "survivalist-hoodie",
-    name: "CJP Satirical Survivalist Hoodie",
+    name: "CIS Satirical Survivalist Hoodie",
     price: 1899,
     description: "Heavy fleece parchment-colored hoodie. Fits loose. Built-in deep hood designed to obscure face during family questions about marriage or jobs.",
     imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Survivalist+Hoodie",
@@ -183,7 +183,7 @@ const rawProducts = [
   },
   {
     id: "sticker-pack",
-    name: "CJP Satirical Sticker Pack",
+    name: "CIS Satirical Sticker Pack",
     price: 149,
     description: "20 die-cut waterproof vinyl stickers featuring Comrade Cockroach, manifesto quotes, and slogans like 'Let Me Sleep' or 'Resilient & Unemployed'.",
     imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Sticker+Pack",

@@ -6,10 +6,10 @@ export default function TermsOfService() {
     <div className="vintage-grain min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto flex flex-col gap-8">
       <header className="border-4 border-black bg-black text-[#EAE5D9] p-5 text-center">
         <h2 className="font-display text-2xl sm:text-4xl uppercase font-black tracking-wide leading-none text-[#C2410C]">
-          TERMS OF LAYABOUT & SERVICE
+          TERMS OF SERVICE
         </h2>
         <p className="text-[9px] uppercase font-bold text-gray-300 mt-1 font-mono">
-          Form CJP-TERMS-2026: Official Procurement Agreement
+          Official Procurement Agreement
         </p>
       </header>
 
@@ -25,7 +25,7 @@ export default function TermsOfService() {
 
         <h3 className="font-display text-base uppercase font-black mt-2">2. Payment Account Compliance</h3>
         <p>
-          You acknowledge and agree that checkout transactions are processed by our secure compliance agent, <strong className="text-[#C2410C]">Deoband Food</strong>. You agree not to file double-payment disputes due to branding discrepancies on your banking statements.
+          You acknowledge and agree that checkout transactions are processed by our secure compliance agent, <strong className="text-[#C2410C]">abdulsalamproductions</strong>. You agree not to file double-payment disputes due to branding discrepancies on your banking statements.
         </p>
 
         <h3 className="font-display text-base uppercase font-black mt-2">3. Atomic Stock Reservation</h3>
@@ -35,7 +35,7 @@ export default function TermsOfService() {
 
         <h3 className="font-display text-base uppercase font-black mt-2">4. Disclaimers of Satire</h3>
         <p>
-          The Cockroach Janta Party is a satirical conceptual design store. We do not participate in municipal, state, or general elections. We do not guarantee corporate immunity from layoffs, but we do guarantee you will look extremely stylish and resilient while lounging in our heavyweight tees.
+          Cockroach India Store is a satirical conceptual design store. We do not participate in any political campaigns or elections. We do not guarantee corporate immunity from layoffs, but we do guarantee you will look extremely stylish and resilient while lounging in our heavyweight tees.
         </p>
 
         <Link
