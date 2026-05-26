@@ -4,7 +4,7 @@ import { products as configProducts } from '@/config/products';
 import HomeClient from './HomeClient';
 
 export const metadata = {
-  title: 'Funny Graphic Tees & Mugs India | Cockroach India Store',
+  title: 'For Everyone Who Refused to Be Squashed | Cockroach India Store',
   description: 'Shop funny graphic tees and mugs from ₹499. 240 GSM heavy cotton, ships across India in 3–5 days. Satirical merch — unbothered since 2026.',
   alternates: {
     canonical: '/',
@@ -12,6 +12,13 @@ export const metadata = {
 };
 
 async function seedProductsIfNeeded() {
+  try {
+    // Delete any legacy products not present in the current config
+    await Product.deleteMany({ id: { $nin: configProducts.map(p => p.id) } });
+  } catch (err) {
+    console.error('Failed to cleanup legacy products:', err);
+  }
+
   for (const p of configProducts) {
     try {
       await Product.updateOne(

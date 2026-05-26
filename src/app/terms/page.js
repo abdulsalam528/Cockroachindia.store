@@ -26,6 +26,20 @@ export default function TermsOfService() {
           Revised: May 22, 2026
         </p>
 
+        {/* Refunds & Returns Policy Box */}
+        <div className="border-4 border-[#C2410C] bg-white p-4 sm:p-5 flex flex-col gap-2.5 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+          <h3 className="font-display text-base uppercase font-black text-[#C2410C] tracking-wide">Refunds & Returns</h3>
+          <p className="leading-relaxed">
+            As of now, Cockroach India Store does not offer refunds or returns. 
+            All sales are final. Please check the size chart carefully before placing your order.
+          </p>
+          <p className="leading-relaxed">
+            If your order arrives damaged or you receive the wrong item, contact us 
+            at <a href="mailto:cockroachindiastore@gmail.com" className="underline font-bold hover:text-[#C2410C]">cockroachindiastore@gmail.com</a> or WhatsApp <a href="https://wa.me/917409656353" target="_blank" rel="noopener noreferrer" className="underline font-bold hover:text-[#C2410C]">+91 74096 56353</a> within 
+            48 hours of delivery with a photo and we will make it right.
+          </p>
+        </div>
+
         <h3 className="font-display text-base uppercase font-black mt-2">1. The Covenant of Laying About</h3>
         <p>
           By purchasing our Cotton Armour, Mug, or Cap, you explicitly covenant that you will not engage in toxic productivity. You agree to take at least two afternoon naps per week and to avoid answering work emails with urgency.

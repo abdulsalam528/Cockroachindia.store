@@ -366,7 +366,7 @@ export default function HomeClient({ initialProducts = [], initialFeaturedCatego
             DECLARATION OF SLACKING
           </span>
           <h1 className="font-display text-3xl sm:text-6xl lg:text-7xl leading-none uppercase font-black tracking-wide">
-            Funny Graphic Tees & Mugs — Shipped Across India
+            For Everyone Who Refused to Be Squashed
           </h1>
           <p className="font-display text-2xl sm:text-3xl uppercase font-black tracking-wide text-gray-800">
             Voice of the <span className="text-[#C2410C] underline decoration-2 decoration-black">Lazy</span> & Unemployed.

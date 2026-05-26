@@ -169,12 +169,12 @@ async function waitForNetworkIdle(page, timeout = 5000) {
     console.log('   📸 Screenshot: 01_register_dashboard_empty.png');
 
     // ═══════════════════════════════════════════════════
-    // STEP 2: Purchase CJP Cotton Armour
+    // STEP 2: Purchase Certified Cockroach T-Shirt
     // ═══════════════════════════════════════════════════
-    console.log('\n🛒 STEP 2: Purchase CJP Cotton Armour');
+    console.log('\n🛒 STEP 2: Purchase Certified Cockroach T-Shirt');
     console.log('-'.repeat(40));
 
-    await page.goto(`${BASE}/products/cjp-cotton-armour`, { waitUntil: 'networkidle2', timeout: 30000 });
+    await page.goto(`${BASE}/products/certified-cockroach-tee`, { waitUntil: 'networkidle2', timeout: 30000 });
     await sleep(3000);
     console.log('   ✅ Navigated to product page');
 
@@ -288,8 +288,8 @@ async function waitForNetworkIdle(page, timeout = 5000) {
     if (modalContent.includes('Cockroach India Store (via abdulsalamproductions)')) {
       console.log('   ✅ Beneficiary: Cockroach India Store (via abdulsalamproductions)');
     }
-    if (modalContent.includes('1998')) {
-      console.log('   ✅ Total Amount: INR 1998.00');
+    if (modalContent.includes('958')) {
+      console.log('   ✅ Total Amount: INR 958.00');
     }
 
     await page.screenshot({ path: screenshotPath('02_razorpay_modal'), fullPage: true });
@@ -356,8 +356,8 @@ async function waitForNetworkIdle(page, timeout = 5000) {
 
     const dashText = await page.evaluate(() => document.body.innerText);
     
-    if (dashText.includes('CIS Anti-Squash Cotton Armour') || dashText.includes('Cotton Armour')) {
-      console.log('   ✅ Order item: CIS Anti-Squash Cotton Armour found');
+    if (dashText.includes('Certified Cockroach') || dashText.includes('T-Shirt')) {
+      console.log('   ✅ Order item: Certified Cockroach T-Shirt found');
     } else {
       console.log('   ⚠️  Product name not found in dashboard text');
     }
@@ -366,8 +366,8 @@ async function waitForNetworkIdle(page, timeout = 5000) {
       console.log('   ✅ Size XL confirmed');
     }
 
-    if (dashText.includes('1998')) {
-      console.log('   ✅ Total: INR 1998.00 confirmed');
+    if (dashText.includes('958')) {
+      console.log('   ✅ Total: INR 958.00 confirmed');
     }
 
     if (dashText.includes('Paid')) {

@@ -1,4 +1,11 @@
-const clothingIds = ['cjp-cotton-armour', 'voice-unemployed-tee', 'stronger-together-tee', 'survivalist-hoodie'];
+const clothingIds = [
+  'certified-cockroach-tee',
+  'chal-be-hatt-tee',
+  'eat-sleep-struggle-tee',
+  'genz-never-giveup-tee',
+  'mein-hu-genz-tee',
+  'rozgar-pending-tee'
+];
 
 function makeVariants(id, stockObj) {
   const isClothing = clothingIds.includes(id);
@@ -14,187 +21,92 @@ function makeVariants(id, stockObj) {
   return variants;
 }
 
-function makeImages(id, name, imageUrl) {
-  const isClothing = clothingIds.includes(id);
-  if (isClothing) {
-    return [
-      imageUrl,
-      imageUrl.replace("EAE5D9/000000", "1F2937/FFFFFF").replace("text=Cotton+Armour", "text=" + encodeURIComponent(name) + "+(Charcoal)")
-              .replace("text=Unemployed+Tee", "text=" + encodeURIComponent(name) + "+(Charcoal)")
-              .replace("text=Stronger+Tee", "text=" + encodeURIComponent(name) + "+(Charcoal)")
-              .replace("text=Survivalist+Hoodie", "text=" + encodeURIComponent(name) + "+(Charcoal)")
-    ];
-  }
-  return [imageUrl];
-}
-
-function makeVideoUrls(id) {
-  // Cotton Armour gets a test vertical YouTube video (Shorts format)
-  if (id === 'cjp-cotton-armour') {
-    return ['https://www.youtube.com/shorts/501z-b4mO74'];
-  }
-  return [];
-}
-
 const rawProducts = [
   {
-    id: "cjp-cotton-armour",
-    name: "CIS Anti-Squash Cotton Armour",
-    price: 999,
-    description: "Heavyweight 240 GSM vintage cotton armor. Guaranteed to survive extreme social pressure, slipper throws, and corporate layoffs. Voice of the lazy and resilient.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Cotton+Armour",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "lazy-manifesto-mug",
-    name: "The Lazy Manifesto Mug",
-    price: 499,
-    description: "Premium ceramic mug designed for sipping chai while the nation builds itself. Fits 500ml of sweet procrastination. Double-glazed in parchment color.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Manifesto+Mug",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "chronically-online-cap",
-    name: "Chronically Online Campaign Cap",
-    price: 399,
-    description: "Distressed denim visor designed to block out sunlight and eye contact. Specially optimized for 18-hour Twitter and Reddit political arguments.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Campaign+Cap",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "cockroach-office-jug",
-    name: "Comrade Cockroach Office Jug",
-    price: 1299,
-    description: "Double-walled vacuum insulated steel jug. Store your cold tears of unemployment or 1 liter of water to survive any administrative desert.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Office+Jug",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "voice-unemployed-tee",
-    name: "Voice of the Unemployed Graphic Tee",
-    price: 899,
-    description: "Let your shirt do the talking. Heavy grotesque display lettering reading 'Lazy, Unemployed, Unsquashable'. Perfect for job interviews you don't want.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Unemployed+Tee",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "parliamentary-procrastinator-jug",
-    name: "Parliamentary Procrastinator Jug",
-    price: 1499,
-    description: "Solid copper water storage for long-running family debates or legislative filibusters. Gives water a metallic, bureaucratic taste of authority.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Procrastinator+Jug",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "resilience-shield-cap",
-    name: "The Resilience Shield Cap",
-    price: 449,
-    description: "Industrial strength canvas cap with a vintage brass buckle. Guaranteed to cover unwashed hair and deflect political pamphlets.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Resilience+Cap",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "propaganda-tote-bag",
-    name: "Satirical Propaganda Tote Bag",
-    price: 349,
-    description: "Carry the heavy weight of failed resolutions and high fuel prices. Extra wide handles for minimal shoulder effort.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Propaganda+Tote",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "crawling-success-mascot",
-    name: "Crawling to Success Mascot",
-    price: 799,
-    description: "A solid pewter heavy paperweight shaped like Comrade Cockroach. Put it on your unpaid utility bills to remind yourself who will survive.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Desk+Mascot",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "lazyboy-cushion-cover",
-    name: "The Lazyboy Cushion Cover",
-    price: 299,
-    description: "Woven parchment canvas cover featuring a bold print: 'Protest in Comfort'. Fits standard sofa cushions. Hand wash only.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Cushion+Cover",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "bribed-by-caffeine-mug",
-    name: "Bribed by Caffeine Mug",
+    id: "certified-cockroach-tee",
+    name: "\"Certified Cockroach\" Oversized Graphic T-Shirt",
     price: 479,
-    description: "Premium enamel mug for verified members. Matte sepia finish with an warning symbol. Ideal for drinking tea while nodding at things you don't understand.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Bribed+Mug",
+    category: "Clothing",
+    description: "Own the title. When they try to label an entire generation, we do what we do best—survive, multiply, and adapt. Inspired by the viral Cockroach Janta Party (CJP) movement sweeping across India, this tee is the ultimate badge of resilience for the modern youth.\n\nFeaturing a premium, bold arch print reading \"Certified Cockroach\" alongside the defiant slogan \"We Don't Die. We Adapt.\", this t-shirt is designed to make a statement, whether you’re scrolling through the discourse online or stepping out onto the streets.\n\nEngineered with an ultra-comfortable, relaxed streetwear drop-shoulder cut, it’s built to survive everything from the ultimate heatwaves to endless internet crackdowns.",
+    imageUrl: "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779835052/certified_cockroach_black_1_ucw13e.png",
+    images: [
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779835052/certified_cockroach_black_1_ucw13e.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779835052/certified_cockroach_white_1_brevcr.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779835052/certified_cockroach_black_2_stu2qb.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779835052/certified_cockroach_white_2_ofktw9.png"
+    ],
     stock: { S: 50, M: 100, L: 100, XL: 50 }
   },
   {
-    id: "stronger-together-tee",
-    name: "Stronger Together Oversized Tee",
-    price: 1099,
-    description: "Double oversized silhouette in a vintage sepia tint. Front print features two cockroaches shaking hands across a pile of breadcrumbs.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Stronger+Tee",
+    id: "chal-be-hatt-tee",
+    name: "\"Chal Be Hatt\" Graffiti Oversized Graphic T-Shirt",
+    price: 479,
+    category: "Clothing",
+    description: "Flip the script. They called us pests, so we brought the ultimate repellent. The official \"Chal Be Hatt\" graphic tee is a loud, unapologetic masterpiece designed for the generation that refuses to keep quiet.\n\nFeaturing a premium, vibrant streetwear illustration, this shirt shows a drip-heavy, sneaker-wearing mascot spraying a can of \"GenZ Hit\" to clear out the old-school political noise. It’s bold, it’s chaotic, and it’s the ultimate statement piece for anyone backing the Cockroach Janta Party (CJP) movement.\n\nCut with a heavy-set drop-shoulder silhouette, this graphic tee brings absolute elite streetwear aesthetics straight to your wardrobe. Perfect for college fests, protests, or just chilling while making memes that shake up the timeline.",
+    imageUrl: "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836474/chal_be_hatt_white_2_brkiml.png",
+    images: [
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836474/chal_be_hatt_white_2_brkiml.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/chal_be_hatt_black_1_qvmd02.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836471/chal_be_hatt_white_1_l288tp.png"
+    ],
     stock: { S: 50, M: 100, L: 100, XL: 50 }
   },
   {
-    id: "filibuster-flask",
-    name: "Filibuster Thermo Flask",
-    price: 1599,
-    description: "Rugged flask with carrying handle. Keeps coffee hot enough to sustain a 12-hour speech defending your right to do absolutely nothing.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Filibuster+Flask",
+    id: "eat-sleep-struggle-tee",
+    name: "\"Eat Sleep Struggle Adapt\" Checklist Oversized T-Shirt",
+    price: 479,
+    category: "Clothing",
+    description: "The daily routine of a generation. They wanted a voice, so we gave them a checklist. The official \"Eat. Sleep. Struggle. Adapt. Repeat.\" oversized tee is a minimalist, hard-hitting tribute to the resilience of the modern Indian youth navigating the ultimate grind.\n\nTaking inspiration from the massive Cockroach Janta Party (CJP) movement, this clean typographic design perfectly balances subtle internet humor with a powerful statement on survival. Featuring a high-contrast checklist graphic on a heavy-knit drop-shoulder canvas, it's designed for those who face the chaos head-on every single day.\n\nWhether you're grinding through study hours, building your hustle, or pushing back against the system, this boxy-fit graphic tee delivers effortless, understated streetwear style.",
+    imageUrl: "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836473/eat_sleep_struggle_adapt_repeat_black_1_wj3ir4.png",
+    images: [
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836473/eat_sleep_struggle_adapt_repeat_black_1_wj3ir4.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/eat_sleep_struggle_adapt_repeat_white_1_ugiz3s.png"
+    ],
     stock: { S: 50, M: 100, L: 100, XL: 50 }
   },
   {
-    id: "unsquashable-socks",
-    name: "The Unsquashable Socks",
-    price: 199,
-    description: "Reinforced heel and toe fibers. Designed to handle heavy boots and dirty slippers. Walk with the confidence of an insect that has outlived dinosaurs.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Unsquashable+Socks",
+    id: "genz-never-giveup-tee",
+    name: "\"GenZ Never Give Up\" Warrior Oversized Graphic T-Shirt",
+    price: 479,
+    category: "Clothing",
+    description: "Battle-tested, timeline-approved. They shot their arrows, but we’re still standing. The official \"GenZ Never Give Up\" oversized graphic tee is a powerful, detailed visual statement celebrating the absolute refusal of today's generation to back down.\n\nAnchored heavily in the visual lore of the Cockroach Janta Party (CJP) movement, this premium tee features an intricate illustration of a cockroach survivor sporting an effortless streetwear look—complete with a hoodie, wallet chains, and cargo pants—unbothered by a massive arrow piercing through its shell. It’s the ultimate artistic metaphor for remaining completely unfazed by institutional pressure and systemic hurdles.\n\nCut with our signature relaxed drop-shoulder build, this t-shirt pairs a heavy graphic presence with premium, effortless daily comfort.",
+    imageUrl: "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836471/genz_never_giveup_white_1_qb1it8.png",
+    images: [
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836471/genz_never_giveup_white_1_qb1it8.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836470/genz_never_giveup_black_1_mrnjvl.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836471/genz_never_giveup_black_2_lhhjtq.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836470/genz_never_giveup_white_2_dpsiwg.png"
+    ],
     stock: { S: 50, M: 100, L: 100, XL: 50 }
   },
   {
-    id: "lazy-manifesto-notepad",
-    name: "Satirical Protests Notepad & Pen",
-    price: 249,
-    description: "Includes a recycled paper notepad and a black ink pen. Perfect for drafting grand manifestos that you will lose before the first meeting starts.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Protest+Notepad",
+    id: "mein-hu-genz-tee",
+    name: "\"Main Hoon GenZ\" Podiums Oversized Graphic T-Shirt",
+    price: 479,
+    category: "Clothing",
+    description: "The press conference they weren't prepared for. Take center stage with the official \"Main Hoon GenZ\" oversized graphic tee. Fusing traditional political rally aesthetics with raw internet culture, this shirt is made for those who stand tall and deliver reality checks.\n\nAs part of the historic Cockroach Janta Party (CJP) movement, this design features a bold Hindi typographic header \"में हूँ\" alongside a sunglasses-clad cockroach mascot addressing the nation from a podium microphone. It's the ultimate satirical take on standard political addresses—reimagined by and for the youth.\n\nCrafted on a heavy-weight, relaxed drop-shoulder canvas, this graphic tee brings bold contrast, flawless retro-modern aesthetics, and absolute comfort to your rotation.",
+    imageUrl: "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836473/mein_hu_genz_black-1_c0xyki.png",
+    images: [
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836473/mein_hu_genz_black-1_c0xyki.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836474/mein_hu_genz_white-1_vspvvk.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836473/mein_hu_genz_black-2_z73zfi.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836473/mein_hu_genz_white-2_azuimd.png"
+    ],
     stock: { S: 50, M: 100, L: 100, XL: 50 }
   },
   {
-    id: "vip-lazy-member-badge",
-    name: "VIP Lazy Member Brass Pin",
-    price: 299,
-    description: "Solid stamped brass badge with safety pin backing. Features the CIS emblem. Looks highly premium, acts as a freepass to avoid manual labor.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Member+Badge",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "bureaucracy-mug",
-    name: "The Bureaucracy Three-Handle Mug",
-    price: 699,
-    description: "Satirical design with three handles. Impossible to hold with one hand, requires dual authorization and a signed slip. A tribute to national red tape.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Bureaucracy+Mug",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "survivalist-hoodie",
-    name: "CIS Satirical Survivalist Hoodie",
-    price: 1899,
-    description: "Heavy fleece parchment-colored hoodie. Fits loose. Built-in deep hood designed to obscure face during family questions about marriage or jobs.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Survivalist+Hoodie",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "sticker-pack",
-    name: "CIS Satirical Sticker Pack",
-    price: 149,
-    description: "20 die-cut waterproof vinyl stickers featuring Comrade Cockroach, manifesto quotes, and slogans like 'Let Me Sleep' or 'Resilient & Unemployed'.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Sticker+Pack",
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
-  },
-  {
-    id: "propaganda-wall-poster",
-    name: "Comrade Cockroach Wall Poster",
-    price: 249,
-    description: "A3 vintage sepia-toned lithograph print. Features the grand image of Comrade Cockroach standing tall. Place in study room to deter productivity.",
-    imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Propaganda+Poster",
+    id: "rozgar-pending-tee",
+    name: "\"Rozgar Pending\" Loading Bar Oversized Graphic T-Shirt",
+    price: 479,
+    category: "Clothing",
+    description: "Still buffering. The official \"Rozgar Pending\" oversized tee is a sharp, unapologetic take on the defining struggle of our generation. Mixing sleek, retro digital interface aesthetics with hard-hitting social commentary, this piece speaks volumes without saying too much.\n\nA vital drop in the Cockroach Janta Party (CJP) satirical movement, the design showcases a bold typographic block reading \"ROZGAR PENDING\" right above a classic status-loading bar labeled \"LOADING SINCE 2014\". It’s the ultimate wearable reality check for everyone waiting on promises, degree verification, or that ever-elusive appointment letter.\n\nCrafted with a heavy-knit, relaxed drop-shoulder cut, this minimalist graphic tee brings an effortless edge to your daily fit—perfect for making your point clear on campus, at a protest, or across the timeline.",
+    imageUrl: "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/rozgar_pending_white_1_u2vlym.png",
+    images: [
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/rozgar_pending_white_1_u2vlym.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836471/rozgar_pending_black_1_jalwjf.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/rozgar_pending_white_2_rsqhod.png",
+      "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/rozgar_pending_black_2_fh6ayi.png"
+    ],
     stock: { S: 50, M: 100, L: 100, XL: 50 }
   }
 ];
@@ -202,6 +114,6 @@ const rawProducts = [
 export const products = rawProducts.map(p => ({
   ...p,
   variants: makeVariants(p.id, p.stock),
-  images: makeImages(p.id, p.name, p.imageUrl),
-  videoUrls: makeVideoUrls(p.id)
+  images: p.images || [p.imageUrl],
+  videoUrls: []
 }));

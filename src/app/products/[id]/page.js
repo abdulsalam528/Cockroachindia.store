@@ -5,6 +5,13 @@ import { notFound } from 'next/navigation';
 import ProductDetailClient from './ProductDetailClient';
 
 async function seedProductsIfNeeded() {
+  try {
+    // Delete any legacy products not present in the current config
+    await Product.deleteMany({ id: { $nin: configProducts.map(p => p.id) } });
+  } catch (err) {
+    console.error('Failed to cleanup legacy products:', err);
+  }
+
   for (const p of configProducts) {
     try {
       await Product.updateOne(

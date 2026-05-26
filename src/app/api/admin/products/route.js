@@ -25,26 +25,46 @@ async function verifyAdmin(request) {
 }
 
 async function seedProductsIfNeeded() {
-  const count = await Product.countDocuments();
-  if (count === 0) {
-    const formatted = products.map((p) => ({
-      id: p.id,
-      name: p.name,
-      category: p.category || 'Uncategorized',
-      price: p.price,
-      description: p.description,
-      imageUrl: p.imageUrl,
-      images: p.images || [],
-      videoUrls: p.videoUrls || [],
-      variants: p.variants || [],
-      stock: {
-        sizeS: p.stock.S,
-        sizeM: p.stock.M,
-        sizeL: p.stock.L,
-        sizeXL: p.stock.XL,
-      },
-    }));
-    await Product.insertMany(formatted);
+  try {
+    await Product.deleteMany({ id: { $nin: products.map(p => p.id) } });
+  } catch (err) {
+    console.error('Failed to cleanup legacy products in admin API:', err);
+  }
+
+  for (const p of products) {
+    try {
+      await Product.updateOne(
+        { id: p.id },
+        {
+          $set: {
+            name: p.name,
+            category: p.category || 'Uncategorized',
+            price: p.price,
+            description: p.description,
+            imageUrl: p.imageUrl,
+            images: p.images || [],
+            videoUrls: p.videoUrls || [],
+          },
+          $setOnInsert: {
+            id: p.id,
+            variants: p.variants || [],
+            stock: {
+              sizeS: p.stock.S,
+              sizeM: p.stock.M,
+              sizeL: p.stock.L,
+              sizeXL: p.stock.XL,
+            },
+          }
+        },
+        { upsert: true }
+      );
+    } catch (err) {
+      if (err.code === 11000 || err.message?.includes('11000')) {
+        console.log(`[Info] Concurrent seeding for ${p.id} handled.`);
+      } else {
+        throw err;
+      }
+    }
   }
 }
 
