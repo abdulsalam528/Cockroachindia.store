@@ -10,7 +10,7 @@ const clothingIds = [
 function makeVariants(id, stockObj) {
   const isClothing = clothingIds.includes(id);
   const colors = isClothing ? ['Black', 'White'] : ['Default'];
-  const sizes = ['S', 'M', 'L', 'XL'];
+  const sizes = ['M', 'L', 'XL', 'XXL'];
   const variants = [];
   colors.forEach(color => {
     sizes.forEach(size => {
@@ -35,7 +35,7 @@ const rawProducts = [
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779835052/certified_cockroach_black_2_stu2qb.png",
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779835052/certified_cockroach_white_2_ofktw9.png"
     ],
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
+    stock: { M: 100, L: 100, XL: 50, XXL: 50 }
   },
   {
     id: "chal-be-hatt-tee",
@@ -49,7 +49,7 @@ const rawProducts = [
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/chal_be_hatt_black_1_qvmd02.png",
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836471/chal_be_hatt_white_1_l288tp.png"
     ],
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
+    stock: { M: 100, L: 100, XL: 50, XXL: 50 }
   },
   {
     id: "eat-sleep-struggle-tee",
@@ -62,7 +62,7 @@ const rawProducts = [
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836473/eat_sleep_struggle_adapt_repeat_black_1_wj3ir4.png",
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/eat_sleep_struggle_adapt_repeat_white_1_ugiz3s.png"
     ],
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
+    stock: { M: 100, L: 100, XL: 50, XXL: 50 }
   },
   {
     id: "genz-never-giveup-tee",
@@ -77,7 +77,7 @@ const rawProducts = [
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836471/genz_never_giveup_black_2_lhhjtq.png",
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836470/genz_never_giveup_white_2_dpsiwg.png"
     ],
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
+    stock: { M: 100, L: 100, XL: 50, XXL: 50 }
   },
   {
     id: "mein-hu-genz-tee",
@@ -92,7 +92,7 @@ const rawProducts = [
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836473/mein_hu_genz_black-2_z73zfi.png",
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836473/mein_hu_genz_white-2_azuimd.png"
     ],
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
+    stock: { M: 100, L: 100, XL: 50, XXL: 50 }
   },
   {
     id: "rozgar-pending-tee",
@@ -107,7 +107,7 @@ const rawProducts = [
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/rozgar_pending_white_2_rsqhod.png",
       "https://res.cloudinary.com/drro49vkm/image/upload/q_auto/f_auto/v1779836472/rozgar_pending_black_2_fh6ayi.png"
     ],
-    stock: { S: 50, M: 100, L: 100, XL: 50 }
+    stock: { M: 100, L: 100, XL: 50, XXL: 50 }
   }
 ];
 

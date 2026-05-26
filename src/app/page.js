@@ -11,10 +11,19 @@ export const metadata = {
   },
 };
 
+const legacyProductIds = [
+  'cjp-cotton-armour', 'lazy-manifesto-mug', 'chronically-online-cap', 'cockroach-office-jug',
+  'voice-unemployed-tee', 'parliamentary-procrastinator-jug', 'resilience-shield-cap',
+  'propaganda-tote-bag', 'crawling-success-mascot', 'lazyboy-cushion-cover', 'bribed-by-caffeine-mug',
+  'stronger-together-tee', 'filibuster-flask', 'unsquashable-socks', 'lazy-manifesto-notepad',
+  'vip-lazy-member-badge', 'bureaucracy-mug', 'survivalist-hoodie', 'sticker-pack',
+  'propaganda-wall-poster'
+];
+
 async function seedProductsIfNeeded() {
   try {
-    // Delete any legacy products not present in the current config
-    await Product.deleteMany({ id: { $nin: configProducts.map(p => p.id) } });
+    // Delete only the legacy template products, preserving custom user-added products
+    await Product.deleteMany({ id: { $in: legacyProductIds } });
   } catch (err) {
     console.error('Failed to cleanup legacy products:', err);
   }
@@ -37,10 +46,11 @@ async function seedProductsIfNeeded() {
             id: p.id,
             variants: p.variants || [],
             stock: {
-              sizeS: p.stock.S,
+              sizeS: p.stock.S || 0,
               sizeM: p.stock.M,
               sizeL: p.stock.L,
               sizeXL: p.stock.XL,
+              sizeXXL: p.stock.XXL || 50,
             },
           }
         },

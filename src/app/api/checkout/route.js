@@ -54,9 +54,18 @@ const razorpay = new Razorpay({
 });
 
 // Helper to seed products if database is empty
+const legacyProductIds = [
+  'cjp-cotton-armour', 'lazy-manifesto-mug', 'chronically-online-cap', 'cockroach-office-jug',
+  'voice-unemployed-tee', 'parliamentary-procrastinator-jug', 'resilience-shield-cap',
+  'propaganda-tote-bag', 'crawling-success-mascot', 'lazyboy-cushion-cover', 'bribed-by-caffeine-mug',
+  'stronger-together-tee', 'filibuster-flask', 'unsquashable-socks', 'lazy-manifesto-notepad',
+  'vip-lazy-member-badge', 'bureaucracy-mug', 'survivalist-hoodie', 'sticker-pack',
+  'propaganda-wall-poster'
+];
+
 async function seedProductsIfNeeded() {
   try {
-    await Product.deleteMany({ id: { $nin: products.map(p => p.id) } });
+    await Product.deleteMany({ id: { $in: legacyProductIds } });
   } catch (err) {
     console.error('Failed to cleanup legacy products in checkout API:', err);
   }
@@ -79,10 +88,11 @@ async function seedProductsIfNeeded() {
             id: p.id,
             variants: p.variants || [],
             stock: {
-              sizeS: p.stock.S,
+              sizeS: p.stock.S || 0,
               sizeM: p.stock.M,
               sizeL: p.stock.L,
               sizeXL: p.stock.XL,
+              sizeXXL: p.stock.XXL || 50,
             },
           }
         },
@@ -122,7 +132,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid checkout parameters.' }, { status: 400 });
     }
 
-    if (!['S', 'M', 'L', 'XL'].includes(size)) {
+    if (!['S', 'M', 'L', 'XL', 'XXL'].includes(size)) {
       return NextResponse.json({ error: 'Invalid size selected.' }, { status: 400 });
     }
 

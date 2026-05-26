@@ -523,10 +523,10 @@ export default function HomeClient({ initialProducts = [], initialFeaturedCatego
                           onChange={(e) => handleSizeChange(product.id, e.target.value)}
                           className="border border-black bg-white px-2 py-0.5 font-bold outline-none text-xs"
                         >
-                          <option value="S">Small [S]</option>
                           <option value="M">Medium [M]</option>
                           <option value="L">Large [L]</option>
                           <option value="XL">Extra Large [XL]</option>
+                          <option value="XXL">Double Extra Large [XXL]</option>
                         </select>
                       </div>
 

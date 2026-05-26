@@ -12,15 +12,16 @@ const ProductSchema = new mongoose.Schema({
   variants: [
     {
       color: { type: String, required: true },
-      size: { type: String, enum: ['S', 'M', 'L', 'XL'], required: true },
+      size: { type: String, enum: ['S', 'M', 'L', 'XL', 'XXL'], required: true },
       stock: { type: Number, default: 0 }
     }
   ],
   stock: {
-    sizeS: { type: Number, default: 50 },
+    sizeS: { type: Number, default: 0 },
     sizeM: { type: Number, default: 100 },
     sizeL: { type: Number, default: 100 },
-    sizeXL: { type: Number, default: 50 }
+    sizeXL: { type: Number, default: 50 },
+    sizeXXL: { type: Number, default: 50 }
   }
 });
 

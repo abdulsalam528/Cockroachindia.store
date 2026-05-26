@@ -123,7 +123,8 @@ export default function AdminDashboard() {
             sizeS: p.stock.sizeS,
             sizeM: p.stock.sizeM,
             sizeL: p.stock.sizeL,
-            sizeXL: p.stock.sizeXL
+            sizeXL: p.stock.sizeXL,
+            sizeXXL: p.stock.sizeXXL
           };
         });
         setProductEdits(edits);
@@ -233,7 +234,8 @@ export default function AdminDashboard() {
             sizeS: edit.sizeS,
             sizeM: edit.sizeM,
             sizeL: edit.sizeL,
-            sizeXL: edit.sizeXL
+            sizeXL: edit.sizeXL,
+            sizeXXL: edit.sizeXXL
           }
         })
       });
@@ -294,11 +296,11 @@ export default function AdminDashboard() {
       const videoUrls = newProduct.videoUrlsRaw ? newProduct.videoUrlsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
       const colors = newProduct.colorsRaw ? newProduct.colorsRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Default'];
 
-      const sizes = ['S', 'M', 'L', 'XL'];
+      const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
       const variants = [];
       colors.forEach(color => {
         sizes.forEach(size => {
-          const qty = size === 'S' ? newProduct.stockS : size === 'M' ? newProduct.stockM : size === 'L' ? newProduct.stockL : newProduct.stockXL;
+          const qty = size === 'S' ? newProduct.stockS : size === 'M' ? newProduct.stockM : size === 'L' ? newProduct.stockL : size === 'XL' ? newProduct.stockXL : newProduct.stockXXL;
           variants.push({ color, size, stock: qty });
         });
       });
@@ -319,7 +321,8 @@ export default function AdminDashboard() {
             sizeS: newProduct.stockS,
             sizeM: newProduct.stockM,
             sizeL: newProduct.stockL,
-            sizeXL: newProduct.stockXL
+            sizeXL: newProduct.stockXL,
+            sizeXXL: newProduct.stockXXL
           }
         })
       });
@@ -339,7 +342,8 @@ export default function AdminDashboard() {
           stockS: 50,
           stockM: 100,
           stockL: 100,
-          stockXL: 50
+          stockXL: 50,
+          stockXXL: 50
         });
         fetchProducts();
       } else {
@@ -851,7 +855,7 @@ export default function AdminDashboard() {
             ) : (
               <div className="flex flex-col gap-4">
                 {products.map(product => {
-                  const edit = productEdits[product.id] || { price: product.price, sizeS: 0, sizeM: 0, sizeL: 0, sizeXL: 0 };
+                  const edit = productEdits[product.id] || { price: product.price, sizeS: 0, sizeM: 0, sizeL: 0, sizeXL: 0, sizeXXL: 0 };
 
                   return (
                     <div key={product.id} className="border-2 border-black bg-[#EAE5D9] p-4 flex flex-col gap-4 relative shadow-md text-xs font-semibold">
@@ -976,6 +980,7 @@ export default function AdminDashboard() {
                                     <option value="M">M</option>
                                     <option value="L">L</option>
                                     <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
                                   </select>
                                 </div>
                                 <div className="flex flex-col flex-grow">
@@ -1012,7 +1017,7 @@ export default function AdminDashboard() {
                       {(!edit.variants || edit.variants.length === 0) && (
                         <div className="flex flex-col gap-1.5 border-t border-black/10 pt-2 mt-2">
                           <span className="uppercase text-gray-500 font-bold text-[10px]">Legacy Bulk Stock:</span>
-                          <div className="grid grid-cols-4 gap-2">
+                          <div className="grid grid-cols-5 gap-2">
                             <div className="flex flex-col gap-1">
                               <span className="font-bold text-[10px]">S</span>
                               <input type="number" min="0" value={edit.sizeS} onChange={(e) => handleProductEditChange(product.id, 'sizeS', Number(e.target.value))} className="border border-black px-1 text-xs" />
@@ -1028,6 +1033,10 @@ export default function AdminDashboard() {
                             <div className="flex flex-col gap-1">
                               <span className="font-bold text-[10px]">XL</span>
                               <input type="number" min="0" value={edit.sizeXL} onChange={(e) => handleProductEditChange(product.id, 'sizeXL', Number(e.target.value))} className="border border-black px-1 text-xs" />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                              <span className="font-bold text-[10px]">XXL</span>
+                              <input type="number" min="0" value={edit.sizeXXL} onChange={(e) => handleProductEditChange(product.id, 'sizeXXL', Number(e.target.value))} className="border border-black px-1 text-xs" />
                             </div>
                           </div>
                         </div>

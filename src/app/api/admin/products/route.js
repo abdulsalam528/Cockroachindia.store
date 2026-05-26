@@ -24,9 +24,18 @@ async function verifyAdmin(request) {
   }
 }
 
+const legacyProductIds = [
+  'cjp-cotton-armour', 'lazy-manifesto-mug', 'chronically-online-cap', 'cockroach-office-jug',
+  'voice-unemployed-tee', 'parliamentary-procrastinator-jug', 'resilience-shield-cap',
+  'propaganda-tote-bag', 'crawling-success-mascot', 'lazyboy-cushion-cover', 'bribed-by-caffeine-mug',
+  'stronger-together-tee', 'filibuster-flask', 'unsquashable-socks', 'lazy-manifesto-notepad',
+  'vip-lazy-member-badge', 'bureaucracy-mug', 'survivalist-hoodie', 'sticker-pack',
+  'propaganda-wall-poster'
+];
+
 async function seedProductsIfNeeded() {
   try {
-    await Product.deleteMany({ id: { $nin: products.map(p => p.id) } });
+    await Product.deleteMany({ id: { $in: legacyProductIds } });
   } catch (err) {
     console.error('Failed to cleanup legacy products in admin API:', err);
   }
@@ -49,10 +58,11 @@ async function seedProductsIfNeeded() {
             id: p.id,
             variants: p.variants || [],
             stock: {
-              sizeS: p.stock.S,
+              sizeS: p.stock.S || 0,
               sizeM: p.stock.M,
               sizeL: p.stock.L,
               sizeXL: p.stock.XL,
+              sizeXXL: p.stock.XXL || 50,
             },
           }
         },
@@ -128,15 +138,18 @@ export async function PATCH(request) {
       const sizeMStock = variants.filter(v => v.size === 'M').reduce((acc, curr) => acc + curr.stock, 0);
       const sizeLStock = variants.filter(v => v.size === 'L').reduce((acc, curr) => acc + curr.stock, 0);
       const sizeXLStock = variants.filter(v => v.size === 'XL').reduce((acc, curr) => acc + curr.stock, 0);
+      const sizeXXLStock = variants.filter(v => v.size === 'XXL').reduce((acc, curr) => acc + curr.stock, 0);
       product.stock.sizeS = sizeSStock;
       product.stock.sizeM = sizeMStock;
       product.stock.sizeL = sizeLStock;
       product.stock.sizeXL = sizeXLStock;
+      product.stock.sizeXXL = sizeXXLStock;
     } else if (stock) {
       if (stock.sizeS !== undefined) product.stock.sizeS = Number(stock.sizeS);
       if (stock.sizeM !== undefined) product.stock.sizeM = Number(stock.sizeM);
       if (stock.sizeL !== undefined) product.stock.sizeL = Number(stock.sizeL);
       if (stock.sizeXL !== undefined) product.stock.sizeXL = Number(stock.sizeXL);
+      if (stock.sizeXXL !== undefined) product.stock.sizeXXL = Number(stock.sizeXXL);
     }
 
     await product.save();
@@ -177,6 +190,7 @@ export async function POST(request) {
     const sizeM = stock?.sizeM !== undefined ? Number(stock.sizeM) : 100;
     const sizeL = stock?.sizeL !== undefined ? Number(stock.sizeL) : 100;
     const sizeXL = stock?.sizeXL !== undefined ? Number(stock.sizeXL) : 50;
+    const sizeXXL = stock?.sizeXXL !== undefined ? Number(stock.sizeXXL) : 50;
 
     let productVariants = variants;
     if (!productVariants) {
@@ -184,7 +198,8 @@ export async function POST(request) {
         { color: 'Default', size: 'S', stock: sizeS },
         { color: 'Default', size: 'M', stock: sizeM },
         { color: 'Default', size: 'L', stock: sizeL },
-        { color: 'Default', size: 'XL', stock: sizeXL }
+        { color: 'Default', size: 'XL', stock: sizeXL },
+        { color: 'Default', size: 'XXL', stock: sizeXXL }
       ];
     }
 
@@ -202,7 +217,8 @@ export async function POST(request) {
         sizeS,
         sizeM,
         sizeL,
-        sizeXL
+        sizeXL,
+        sizeXXL
       }
     });
 

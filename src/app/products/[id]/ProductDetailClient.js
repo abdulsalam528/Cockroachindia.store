@@ -355,7 +355,7 @@ export default function ProductDetailClient({ product, relatedProducts = [] }) {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-xs font-bold uppercase text-gray-700">Choose Cotton Armor Size:</span>
               <div className="flex gap-2">
-                {['S', 'M', 'L', 'XL'].map((size) => (
+                {['M', 'L', 'XL', 'XXL'].map((size) => (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
