@@ -64,6 +64,9 @@ async function waitForNetworkIdle(page, timeout = 5000) {
 
   const page = await browser.newPage();
 
+  page.on('console', msg => console.log('   [PAGE CONSOLE]', msg.text()));
+  page.on('pageerror', err => console.log('   [PAGE ERROR]', err.toString()));
+
   try {
     // First, reset the DB by hitting the test-reset endpoint if it exists,
     // or just proceed (the test handles duplicate registrations gracefully)
@@ -171,7 +174,7 @@ async function waitForNetworkIdle(page, timeout = 5000) {
     console.log('\n🛒 STEP 2: Purchase CJP Cotton Armour');
     console.log('-'.repeat(40));
 
-    await page.goto(`${BASE}/product/cjp-cotton-armour`, { waitUntil: 'networkidle2', timeout: 30000 });
+    await page.goto(`${BASE}/products/cjp-cotton-armour`, { waitUntil: 'networkidle2', timeout: 30000 });
     await sleep(3000);
     console.log('   ✅ Navigated to product page');
 
@@ -186,13 +189,17 @@ async function waitForNetworkIdle(page, timeout = 5000) {
       console.log('   ⚠️  BUY NOW button not found, continuing...');
     }
 
-    // Select size XL — find button with text "XL"
-    const xlButton = await page.evaluateHandle(() => {
+    // Select size XL — find button with text "XL" and click it
+    const clickedXL = await page.evaluate(() => {
       const buttons = Array.from(document.querySelectorAll('button'));
-      return buttons.find(b => b.textContent.trim() === 'XL');
+      const xlBtn = buttons.find(b => b.textContent.trim() === 'XL');
+      if (xlBtn) {
+        xlBtn.click();
+        return true;
+      }
+      return false;
     });
-    if (xlButton) {
-      await xlButton.click();
+    if (clickedXL) {
       await sleep(500);
       console.log('   ✅ Selected size XL');
     } else {
@@ -200,14 +207,20 @@ async function waitForNetworkIdle(page, timeout = 5000) {
     }
 
     // Click the + button to increase quantity to 2
-    const plusButton = await page.evaluateHandle(() => {
+    const clickedPlus = await page.evaluate(() => {
       const buttons = Array.from(document.querySelectorAll('button'));
-      return buttons.find(b => b.textContent.trim() === '+');
+      const plusBtn = buttons.find(b => b.textContent.trim() === '+');
+      if (plusBtn) {
+        plusBtn.click();
+        return true;
+      }
+      return false;
     });
-    if (plusButton) {
-      await plusButton.click();
+    if (clickedPlus) {
       await sleep(500);
       console.log('   ✅ Increased quantity to 2');
+    } else {
+      console.log('   ⚠️  + button not found');
     }
 
     // Verify BUY NOW shows correct price
@@ -219,13 +232,43 @@ async function waitForNetworkIdle(page, timeout = 5000) {
     console.log(`   💰 Buy button text: "${buyBtnText}"`);
 
     // Click BUY NOW
-    const buyNowButton = await page.evaluateHandle(() => {
+    const clickedBuyNow = await page.evaluate(() => {
       const buttons = Array.from(document.querySelectorAll('button'));
-      return buttons.find(b => b.textContent.includes('BUY NOW'));
+      const buyNowBtn = buttons.find(b => b.textContent.includes('BUY NOW'));
+      if (buyNowBtn) {
+        buyNowBtn.click();
+        return true;
+      }
+      return false;
     });
-    if (buyNowButton) {
-      await buyNowButton.click();
+    if (clickedBuyNow) {
       console.log('   ✅ Clicked BUY NOW');
+    } else {
+      console.log('   ⚠️  BUY NOW button not found');
+    }
+
+    // Wait for redirect to checkout page
+    await page.waitForFunction(
+      () => window.location.pathname === '/checkout',
+      { timeout: 15000 }
+    );
+    await sleep(2000);
+    console.log('   ✅ Redirected to /checkout page');
+
+    // Click the Pay button on the checkout page
+    const clickedPay = await page.evaluate(() => {
+      const buttons = Array.from(document.querySelectorAll('button'));
+      const payBtn = buttons.find(b => b.textContent.includes('Pay') || b.textContent.includes('PAY'));
+      if (payBtn) {
+        payBtn.click();
+        return true;
+      }
+      return false;
+    });
+    if (clickedPay) {
+      console.log('   ✅ Clicked Pay button on checkout page');
+    } else {
+      console.log('   ⚠️  Pay button not found on checkout page');
     }
 
     // Wait for Razorpay UPI Simulator modal
@@ -253,13 +296,16 @@ async function waitForNetworkIdle(page, timeout = 5000) {
     console.log('   📸 Screenshot: 02_razorpay_modal.png');
 
     // Click CONFIRM MOCK UPI
-    const confirmBtn = await page.evaluateHandle(() => {
+    const clickedConfirm = await page.evaluate(() => {
       const buttons = Array.from(document.querySelectorAll('button'));
-      return buttons.find(b => b.textContent.includes('CONFIRM MOCK UPI'));
+      const confirmBtn = buttons.find(b => b.textContent.includes('CONFIRM MOCK UPI'));
+      if (confirmBtn) {
+        confirmBtn.click();
+        return true;
+      }
+      return false;
     });
-    const confirmEl = confirmBtn.asElement();
-    if (confirmEl) {
-      await confirmEl.click();
+    if (clickedConfirm) {
       console.log('   ✅ Clicked CONFIRM MOCK UPI');
     } else {
       console.log('   ⚠️  CONFIRM MOCK UPI button not found on page (real gateway mode?)');
@@ -310,8 +356,8 @@ async function waitForNetworkIdle(page, timeout = 5000) {
 
     const dashText = await page.evaluate(() => document.body.innerText);
     
-    if (dashText.includes('CJP Anti-Squash Cotton Armour') || dashText.includes('Cotton Armour')) {
-      console.log('   ✅ Order item: CJP Anti-Squash Cotton Armour found');
+    if (dashText.includes('CIS Anti-Squash Cotton Armour') || dashText.includes('Cotton Armour')) {
+      console.log('   ✅ Order item: CIS Anti-Squash Cotton Armour found');
     } else {
       console.log('   ⚠️  Product name not found in dashboard text');
     }
@@ -363,12 +409,18 @@ async function waitForNetworkIdle(page, timeout = 5000) {
     }
     console.log(`   ✅ On register page: ${page.url()}`);
 
-    // Fill registration form for admin
+    // Fill registration form for admin (including address fields now required by form validation)
     await page.type('input[name="fullName"]', 'Supreme Commander', { delay: 30 });
     await page.type('input[name="email"]', 'admin@cjp.org', { delay: 30 });
     await page.type('input[name="phoneNumber"]', '9999999999', { delay: 30 });
+    
+    await page.type('input[name="addressLine1"]', 'Admin HQ, Central Block', { delay: 30 });
+    await page.type('input[name="city"]', 'New Delhi', { delay: 30 });
+    await page.type('input[name="state"]', 'Delhi', { delay: 30 });
+    await page.type('input[name="postalCode"]', '110001', { delay: 30 });
+
     await page.type('input[name="password"]', 'admin123', { delay: 30 });
-    console.log('   ✅ Filled admin registration form');
+    console.log('   ✅ Filled admin registration form (including required address fields)');
 
     // Submit
     await page.click('button[type="submit"]');

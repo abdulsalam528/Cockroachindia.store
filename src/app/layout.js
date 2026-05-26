@@ -20,13 +20,30 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://cockroachindia.store'),
+  metadataBase: new URL('https://www.cockroachindia.shop'),
+  alternates: {
+    canonical: '/',
+  },
+  verification: {
+    google: 'mLhbU8wbSW9nBIk3v7wpt9XcN572sdQxH8NJCGub9qo',
+  },
   title: 'Cockroach India Store - Satirical Parody Hub',
-  description: 'Graphic tees, mugs & more — 240 GSM cotton, ships across India. Official merchandise drop.',
+  description: 'Graphic tees, mugs & more — 240 GSM cotton, ships across India. Merchandise drop.',
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png' },
+    ],
+  },
+  manifest: '/site.webmanifest',
   openGraph: {
     title: 'Cockroach India Store',
     description: 'Graphic tees, mugs & more — 240 GSM cotton, ships across India.',
-    url: 'https://cockroachindia.store',
+    url: 'https://www.cockroachindia.shop',
     siteName: 'Cockroach India Store',
     images: [
       {
@@ -42,7 +59,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Cockroach India Store',
-    description: 'Graphic tees, mugs & more. Official Merch Hub.',
+    description: 'Graphic tees, mugs & more. Merch Hub.',
     images: ['/homepage.webp'],
   },
 };
@@ -61,9 +78,33 @@ export default function RootLayout({ children }) {
             {children}
           </main>
           <Footer />
+          {/* Organization JSON-LD Schema */}
+          <Script
+            id="organization-schema"
+            type="application/ld+json"
+            strategy="afterInteractive"
+          >
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Cockroach India Store",
+              "url": "https://www.cockroachindia.shop",
+              "logo": "https://www.cockroachindia.shop/logo.webp",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+91-74096-56353",
+                "contactType": "customer service",
+                "availableLanguage": ["English", "Hindi"]
+              },
+              "sameAs": [
+                "https://www.instagram.com/cockroachindiastore/",
+                "https://www.facebook.com/profile.php?id=61590194319479"
+              ]
+            })}
+          </Script>
           {/* Floating WhatsApp Button */}
           <a
-            href="https://wa.me/917409656353"
+            href="https://wa.me/917409656353?text=Hi%2C%20I%20have%20a%20question%20about%20an%20order"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat with us on WhatsApp"

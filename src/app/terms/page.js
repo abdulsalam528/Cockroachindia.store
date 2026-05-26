@@ -1,15 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
 
+export const metadata = {
+  title: 'Terms of Service | Cockroach India Store',
+  description: 'Read the terms of service, procurement covenant of laying about, and atomic stock reservation conditions for Cockroach India Store.',
+  alternates: {
+    canonical: '/terms',
+  },
+};
+
 export default function TermsOfService() {
   return (
     <div className="vintage-grain min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto flex flex-col gap-8">
       <header className="border-4 border-black bg-black text-[#EAE5D9] p-5 text-center">
-        <h2 className="font-display text-2xl sm:text-4xl uppercase font-black tracking-wide leading-none text-[#C2410C]">
+        <h1 className="font-display text-2xl sm:text-4xl uppercase font-black tracking-wide leading-none text-[#C2410C]">
           TERMS OF SERVICE
-        </h2>
+        </h1>
         <p className="text-[9px] uppercase font-bold text-gray-300 mt-1 font-mono">
-          Official Procurement Agreement
+          Procurement Agreement
         </p>
       </header>
 
@@ -20,7 +28,7 @@ export default function TermsOfService() {
 
         <h3 className="font-display text-base uppercase font-black mt-2">1. The Covenant of Laying About</h3>
         <p>
-          By purchasing our official Cotton Armour, Mug, or Cap, you explicitly covenant that you will not engage in toxic productivity. You agree to take at least two afternoon naps per week and to avoid answering work emails with urgency.
+          By purchasing our Cotton Armour, Mug, or Cap, you explicitly covenant that you will not engage in toxic productivity. You agree to take at least two afternoon naps per week and to avoid answering work emails with urgency.
         </p>
 
         <h3 className="font-display text-base uppercase font-black mt-2">2. Payment Account Compliance</h3>

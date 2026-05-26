@@ -5,6 +5,6 @@ export default function robots() {
       allow: '/',
       disallow: ['/dashboard', '/admin', '/api/'],
     },
-    sitemap: 'https://cockroachindia.store/sitemap.xml',
+    sitemap: 'https://www.cockroachindia.shop/sitemap.xml',
   };
 }

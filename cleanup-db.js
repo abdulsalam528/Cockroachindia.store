@@ -1,11 +1,21 @@
+const fs = require('fs');
+const path = require('path');
 const mongoose = require('mongoose');
 
-const MONGODB_URI = 'mongodb://localhost:27017/cjp';
-
 async function run() {
+  const envPath = path.join(__dirname, '.env.local');
+  let mongodbUri = 'mongodb://localhost:27017/cis_db';
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    const match = envContent.match(/MONGODB_URI\s*=\s*([^\r\n]*)/);
+    if (match && match[1]) {
+      mongodbUri = match[1].trim();
+    }
+  }
+
   try {
     console.log('Connecting to database...');
-    await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(mongodbUri);
     console.log('Connected.');
 
     // We can clean by collections directly

@@ -20,14 +20,14 @@ export default function Header() {
         {/* Satirical Branding Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative w-12 h-12 border-2 border-black transition-transform group-hover:scale-105">
-            <Image src="/logo.webp" alt="CIS Logo" fill className="object-contain" unoptimized />
+            <Image src="/logo.webp" alt="Cockroach India Store logo" fill className="object-contain" unoptimized />
           </div>
           <div>
             <h1 className="font-display text-xl sm:text-2xl tracking-wide leading-none uppercase font-black">
               COCKROACH INDIA STORE
             </h1>
             <p className="text-[10px] uppercase font-bold tracking-wider text-gray-700">
-              Official Merch Drop
+              Merch Drop
             </p>
           </div>
         </Link>

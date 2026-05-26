@@ -1,16 +1,23 @@
-import React from 'react';
 import Link from 'next/link';
+
+export const metadata = {
+  title: 'Cockroach Janta Party (CJP) Merch — T-Shirts & Mugs India',
+  description: 'CJP merchandise. Cockroach Janta Party t-shirts, mugs and more. The satirical movement for India\'s chronically unbothered. Shop from ₹499.',
+  alternates: {
+    canonical: '/about',
+  },
+};
 
 export default function About() {
   return (
     <div className="vintage-grain min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto flex flex-col gap-10">
       
       <header className="border-4 border-black bg-black text-[#EAE5D9] p-6 text-center">
-        <h2 className="font-display text-3xl sm:text-5xl uppercase font-black tracking-wide leading-none text-[#C2410C]">
-          OUR STORY
-        </h2>
+        <h1 className="font-display text-3xl sm:text-5xl uppercase font-black tracking-wide leading-none text-[#C2410C]">
+          Cockroach Janta Party — Merch
+        </h1>
         <p className="text-[10px] uppercase font-bold tracking-wider text-gray-300 mt-1 font-mono">
-          Unofficial Satirical Manifesto of Cockroach India Store
+          Independent Satirical Manifesto of Cockroach India Store
         </p>
       </header>
 

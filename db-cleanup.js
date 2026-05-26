@@ -1,9 +1,27 @@
-// db-cleanup.js - Reset test data before E2E tests
+const fs = require('fs');
+const path = require('path');
 const { MongoClient } = require('mongodb');
 
 async function cleanup() {
-  const client = await MongoClient.connect('mongodb://localhost:27017/cjp');
-  const db = client.db('cjp');
+  const envPath = path.join(__dirname, '.env.local');
+  let mongodbUri = 'mongodb://localhost:27017/cis_db';
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    const match = envContent.match(/MONGODB_URI\s*=\s*([^\r\n]*)/);
+    if (match && match[1]) {
+      mongodbUri = match[1].trim();
+    }
+  }
+  
+  console.log('Connecting to:', mongodbUri.split('@')[1] || mongodbUri);
+  const client = await MongoClient.connect(mongodbUri);
+  // Get database name from connection string if present
+  let dbName = 'cis_db';
+  const urlParts = mongodbUri.split('/');
+  if (urlParts.length > 3) {
+    dbName = urlParts[3].split('?')[0];
+  }
+  const db = client.db(dbName);
   
   // Delete test users
   const delUsers = await db.collection('users').deleteMany({ 

@@ -121,7 +121,7 @@ const rawProducts = [
     id: "bribed-by-caffeine-mug",
     name: "Bribed by Caffeine Mug",
     price: 479,
-    description: "Official enamel mug for verified members. Matte sepia finish with an warning symbol. Ideal for drinking tea while nodding at things you don't understand.",
+    description: "Premium enamel mug for verified members. Matte sepia finish with an warning symbol. Ideal for drinking tea while nodding at things you don't understand.",
     imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Bribed+Mug",
     stock: { S: 50, M: 100, L: 100, XL: 50 }
   },
@@ -151,7 +151,7 @@ const rawProducts = [
   },
   {
     id: "lazy-manifesto-notepad",
-    name: "Official Protests Notepad & Pen",
+    name: "Satirical Protests Notepad & Pen",
     price: 249,
     description: "Includes a recycled paper notepad and a black ink pen. Perfect for drafting grand manifestos that you will lose before the first meeting starts.",
     imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Protest+Notepad",
@@ -161,7 +161,7 @@ const rawProducts = [
     id: "vip-lazy-member-badge",
     name: "VIP Lazy Member Brass Pin",
     price: 299,
-    description: "Solid stamped brass badge with safety pin backing. Features the CIS emblem. Looks highly official, acts as a freepass to avoid manual labor.",
+    description: "Solid stamped brass badge with safety pin backing. Features the CIS emblem. Looks highly premium, acts as a freepass to avoid manual labor.",
     imageUrl: "https://placehold.co/600x600/EAE5D9/000000?text=Member+Badge",
     stock: { S: 50, M: 100, L: 100, XL: 50 }
   },

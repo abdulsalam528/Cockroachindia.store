@@ -363,7 +363,7 @@ export default function AdminDashboard() {
             CIS Logistics Ops Dashboard
           </h2>
           <p className="text-[10px] uppercase font-bold tracking-wider text-gray-400 mt-1">
-            Official Administrative Command Center for Swag Logistics
+            Central Administrative Command Center for Swag Logistics
           </p>
         </div>
         

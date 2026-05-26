@@ -11,7 +11,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <div className="relative w-8 h-8 flex-shrink-0">
-                <Image src="/logo.webp" alt="CIS Logo" fill className="object-contain" unoptimized />
+                <Image src="/logo.webp" alt="Cockroach India Store logo" fill className="object-contain" unoptimized />
               </div>
               <span className="font-display font-black text-lg tracking-wide uppercase">COCKROACH INDIA STORE</span>
             </div>
@@ -46,7 +46,7 @@ export default function Footer() {
           <div>
             <h4 className="font-bold uppercase tracking-widest text-[#C2410C] mb-3">ACCOUNT COMPLIANCE NOTICE</h4>
             <p className="text-[10px] text-gray-400 leading-relaxed mb-2">
-              Payment processing services are securely integrated and managed under parent trading compliance label: <strong className="text-white">abdulsalamproductions</strong>. Statements will show charges accordingly.
+              Payments are processed securely via Razorpay. Your bank statement may show the charge under our registered business name. This is normal and fully legitimate. Questions? WhatsApp us at +91 74096 56353.
             </p>
             <p className="text-[10px] text-gray-400 leading-relaxed mb-2">
               Cockroach India Store sells original satirical merchandise. All designs are creative works. No political affiliation claimed or implied.

@@ -1,13 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
 
+export const metadata = {
+  title: 'Privacy Policy | Cockroach India Store',
+  description: 'DPDP Act-compliant data protection guidelines and privacy policy outlines for Cockroach India Store.',
+  alternates: {
+    canonical: '/privacy-policy',
+  },
+};
+
 export default function PrivacyPolicy() {
   return (
     <div className="vintage-grain min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto flex flex-col gap-8">
       <header className="border-4 border-black bg-black text-[#EAE5D9] p-5 text-center">
-        <h2 className="font-display text-2xl sm:text-4xl uppercase font-black tracking-wide leading-none text-[#C2410C]">
+        <h1 className="font-display text-2xl sm:text-4xl uppercase font-black tracking-wide leading-none text-[#C2410C]">
           PRIVACY POLICY
-        </h2>
+        </h1>
         <p className="text-[9px] uppercase font-bold text-gray-300 mt-1 font-mono">
           DPDP-Compliant Data Protection Guidelines
         </p>
