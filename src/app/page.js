@@ -3,6 +3,8 @@ import Product from '@/models/Product';
 import { products as configProducts } from '@/config/products';
 import HomeClient from './HomeClient';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'For Everyone Who Refused to Be Squashed | Cockroach India Store',
   description: 'Shop funny graphic tees and mugs from ₹499. 240 GSM heavy cotton, ships across India in 3–5 days. Satirical merch — unbothered since 2026.',
@@ -33,7 +35,8 @@ async function seedProductsIfNeeded() {
       await Product.updateOne(
         { id: p.id },
         {
-          $set: {
+          $setOnInsert: {
+            id: p.id,
             name: p.name,
             category: p.category || 'Uncategorized',
             price: p.price,
@@ -41,9 +44,6 @@ async function seedProductsIfNeeded() {
             imageUrl: p.imageUrl,
             images: p.images || [],
             videoUrls: p.videoUrls || [],
-          },
-          $setOnInsert: {
-            id: p.id,
             variants: p.variants || [],
             stock: {
               sizeS: p.stock.S || 0,

@@ -26,7 +26,8 @@ async function seedProductsIfNeeded() {
       await Product.updateOne(
         { id: p.id },
         {
-          $set: {
+          $setOnInsert: {
+            id: p.id,
             name: p.name,
             category: p.category || 'Uncategorized',
             price: p.price,
@@ -34,9 +35,6 @@ async function seedProductsIfNeeded() {
             imageUrl: p.imageUrl,
             images: p.images || [],
             videoUrls: p.videoUrls || [],
-          },
-          $setOnInsert: {
-            id: p.id,
             variants: p.variants || [],
             stock: {
               sizeS: p.stock.S || 0,
